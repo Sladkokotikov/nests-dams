@@ -30,6 +30,7 @@ public class GameEngine
     private IEnumerable<Vector2Int> _possibleSelections;
     private Vector2Int _playedPosition;
     private Goal _completedGoal;
+    private bool _waitForStoreTribe;
     private Tribe _storedTribe;
 
     #endregion
@@ -50,10 +51,12 @@ public class GameEngine
             },
             new List<CardData>
             {
-                ServiceLocator.Locator.CardManager.BeaverTeacher,
-                ServiceLocator.Locator.CardManager.BeaverBully,
-                ServiceLocator.Locator.CardManager.BeaverCub,
-                ServiceLocator.Locator.CardManager.BeaverCub,
+                ServiceLocator.Locator.CardManager.GetCard(0),
+                // ServiceLocator.Locator.CardManager.GetCard(1),
+                // ServiceLocator.Locator.CardManager.GetCard(2),
+                // ServiceLocator.Locator.CardManager.GetCard(3),
+                ServiceLocator.Locator.CardManager.GetCard(4),
+                //ServiceLocator.Locator.CardManager.GetCard(5),
                 
             });
         Game.SavePlayerGoals(Player.GetGoals);
@@ -96,8 +99,22 @@ public class GameEngine
             [(byte)BytecodeBasis.Surrounding] = () => Select(v => v.IsSurrounding(_playedPosition)),
             [(byte)BytecodeBasis.Edge] = () => Select(v => v.IsOnEdge(_field)),
 
-            [(byte)BytecodeBasis.Magpie] = () => Select(v => !_field[v].Occupied || _field[v].OccupantTribe == Tribe.Magpie),
-            [(byte)BytecodeBasis.Beaver] = () => Select(v => !_field[v].Occupied || _field[v].OccupantTribe == Tribe.Beaver),
+            [(byte)BytecodeBasis.Magpie] = () =>
+            {
+                if (!_waitForStoreTribe)
+                    return Select(v => !_field[v].Occupied || _field[v].OccupantTribe == Tribe.Magpie);
+                _storedTribe = Tribe.Magpie;
+                _waitForStoreTribe = false;
+                return null;
+            },
+            [(byte)BytecodeBasis.Beaver] = () =>
+            {
+                if (!_waitForStoreTribe)
+                    return Select(v => !_field[v].Occupied || _field[v].OccupantTribe == Tribe.Beaver);
+                _storedTribe = Tribe.Beaver;
+                _waitForStoreTribe = false;
+                return null;
+            },
         };
 
         _appliers = new Dictionary<byte, Func<Vector2Int, IEnumerator>>
@@ -177,14 +194,14 @@ public class GameEngine
     private IEnumerator ApplySpawn(Vector2Int position)
     {
         var data = GetCommonCard(_storedTribe);
-        _field[position] = TileInfo.Create(_storedTribe, data.ID);
+        _field[position] = TileInfo.Create(_storedTribe, data.id);
         yield return Game.CreateAndPlaceCard(data, position);
     }
 
     private static CardData GetCommonCard(Tribe storedTribe)
         => storedTribe switch
         {
-            Tribe.Beaver => CardConstructor.GetCard("Бобрёнок"),
+            Tribe.Beaver => ServiceLocator.Locator.CardManager.GetCard(1),
             /*Tribe.Magpie => expr,
             Tribe.Obstacle => expr,
             Tribe.Playable => expr,
@@ -197,6 +214,7 @@ public class GameEngine
     {
         _operation = (byte)BytecodeBasis.Spawn;
         _possibleSelections = _field.Keys.Where(p => !_field[p].Occupied);
+        _waitForStoreTribe = true;
         yield return null;
     }
 
@@ -350,7 +368,7 @@ public class GameEngine
     {
         _playedPosition = position;
         Game.PlaceCard(card, position);
-        _field[position] = TileInfo.Create(card.Data.Tribe, card.Data.ID);
+        _field[position] = TileInfo.Create(card.Data.tribe, card.Data.id);
         yield return ApplyFullAbility(card.Data);
     }
 
@@ -361,7 +379,7 @@ public class GameEngine
             yield break;
         var freePos = freeTiles.Choose();
         yield return Game.CreateAndPlaceCard(card, freePos);
-        _field[freePos] = TileInfo.Create(card.Tribe, card.ID);
+        _field[freePos] = TileInfo.Create(card.tribe, card.id);
         yield return ApplyFullAbility(card);
     }
 

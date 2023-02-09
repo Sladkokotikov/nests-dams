@@ -24,10 +24,11 @@ public static class Extensions
 
     public static void Clear(this Transform source)
     {
-        foreach(Transform child in source)
+        foreach (Transform child in source)
             Object.Destroy(child.gameObject);
     }
 
     public static void Clear(this GameObject source) => source.transform.Clear();
 
+    public static T[] Enumerate<T>() => (T[]) Enum.GetValues(typeof(T));
 }

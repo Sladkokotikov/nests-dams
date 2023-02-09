@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -7,6 +8,7 @@ using UnityEngine.UI;
 public class Card : MonoBehaviour, IDraggable
 {
     [SerializeField] private RectTransform rect;
+    [SerializeField] private Material dissolve;
 
     public Vector3 RectPosition
     {
@@ -14,12 +16,17 @@ public class Card : MonoBehaviour, IDraggable
         set => rect.position = value;
     }
 
-    [SerializeField] private RectTransform headArea;
     public RectTransform hand;
     [SerializeField] private TMP_Text cardName;
     [SerializeField] private TMP_Text cardAbility;
-    [SerializeField] private Image cardImage;
-    [SerializeField] private Image rarityBackground;
+    [SerializeField] private Image image;
+    [SerializeField] private Image outlineImage;
+    [SerializeField] private RectTransform imageRect;
+
+    [SerializeField] private Image background;
+
+    //[SerializeField] private RectTransform backgroundRect;
+    private Color _color;
 
     private CardData _data;
 
@@ -29,8 +36,10 @@ public class Card : MonoBehaviour, IDraggable
         set
         {
             _data = value;
-            cardName.text = _data.Name;
-            cardAbility.text = _data.AbilityMask;
+            cardName.text = _data.cardName;
+            cardAbility.text = _data.abilityMask;
+            image.sprite = _data.image;
+            print($"Data set to {_data.cardName}");
         }
     }
 
@@ -45,6 +54,8 @@ public class Card : MonoBehaviour, IDraggable
     private int _siblingIndex;
 
     private Vector2Int _position;
+    private static readonly int Fade = Shader.PropertyToID("_Fade");
+    private static readonly int Glow = Shader.PropertyToID("_Glow");
 
     public Vector2Int Position
     {
@@ -52,7 +63,7 @@ public class Card : MonoBehaviour, IDraggable
         set
         {
             _position = value;
-            rect.anchoredPosition = Game.TileWidth * value - headArea.anchoredPosition;
+            rect.anchoredPosition = Game.TileWidth * value;
         }
     }
 
@@ -60,7 +71,7 @@ public class Card : MonoBehaviour, IDraggable
 
     void Start()
     {
-        rarityBackground.color = new Color(Random.value, Random.value, Random.value, 0.7f);
+        _color = background.color = new Color(Random.value, Random.value, Random.value, 0.7f);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -76,7 +87,9 @@ public class Card : MonoBehaviour, IDraggable
         transform.SetParent(Player.Game.transform);
         cardName.gameObject.SetActive(false);
         cardAbility.gameObject.SetActive(false);
-        headArea.DOSizeDelta(Vector2.one * 100, 0.2f);
+        image.sprite = _data.icon;
+        imageRect.DOSizeDelta(Vector2.one * 100, 0.2f);
+        background.color = Color.clear;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -88,12 +101,14 @@ public class Card : MonoBehaviour, IDraggable
 
     public void Drop()
     {
-        var position = Player.Game.PlacePosition(headArea.position);
+        var position = Player.Game.PlacePosition(rect.position);
         if (position is null)
         {
             cardName.gameObject.SetActive(true);
             cardAbility.gameObject.SetActive(true);
-            headArea.DOSizeDelta(new Vector2(300, 500), 0.2f);
+            image.sprite = _data.image;
+            imageRect.DOSizeDelta(200 * Vector2.one, 0.2f);
+            background.color = _color;
             transform.SetParent(hand);
             transform.SetSiblingIndex(_siblingIndex);
             return;
@@ -113,24 +128,50 @@ public class Card : MonoBehaviour, IDraggable
 
     private void Drag(Vector2 position)
     {
-        rect.position = position - headArea.anchoredPosition;
+        rect.position = position;
+        rect.position = new Vector3(rect.position.x, rect.position.y, 0);
     }
 
     public void ToField(Vector2Int position)
     {
         //transform.SetParent(Player.Game.transform);
         rect.anchorMin = rect.anchorMax = Vector2.one / 2;
-        headArea.sizeDelta = Vector2.one * 100;
+        cardName.gameObject.SetActive(false);
+        cardAbility.gameObject.SetActive(false);
+        background.enabled = false;
+        image.sprite = _data.icon;
+        //imageRect.DOSizeDelta(Vector2.one * 100, 0.2f);
+        imageRect.sizeDelta = Vector2.one * 100;
+        background.color = Color.clear;
         Position = position;
     }
 
-    /*public void OnPointerClick(PointerEventData eventData)
+    public void VisualizeBirth()
     {
-        /*if (InHand)
-            return;
-        CardInfoVisualizer.Instance.ShowCardInfo(this);#1#
-    }*/
+        image.material = dissolve;
+        outlineImage.material = dissolve;
+        image.material.SetFloat(Fade, -0.1f);
+        dissolve.SetColor(Glow, Color.green);
+        DOTween.To(() => dissolve.GetFloat(Fade),
+            f => dissolve.SetFloat(Fade, f),
+            0.8f,
+            3
+        ).OnComplete(() => image.material = outlineImage.material = null);
+    }
 
-    public Vector2 CalculateFuturePosition(Vector2Int finish)
-        => Game.TileWidth * finish - headArea.anchoredPosition;
+    public void Die()
+    {
+        image.material = dissolve;
+        outlineImage.material = dissolve;
+        image.material.SetFloat(Fade, 0.8f);
+        dissolve.SetColor(Glow, Color.red);
+        DOTween.To(() => dissolve.GetFloat(Fade),
+            f => dissolve.SetFloat(Fade, f),
+            -0.1f,
+            3
+        ).OnComplete(() =>
+        {
+            Destroy(gameObject);
+        });
+    }
 }

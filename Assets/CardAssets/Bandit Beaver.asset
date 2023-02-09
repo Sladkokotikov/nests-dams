@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea192ec2c8314d658d8f296617b07cd0, type: 3}
+  m_Name: Bandit Beaver
+  m_EditorClassIdentifier: 
+  <ID>k__BackingField: 0
+  <Tribe>k__BackingField: 0
+  <Name>k__BackingField: "\u0411\u0430\u043D\u0434\u0438\u0442 \u0411\u043E\u0431\u0440\u0438\u0442\u043E"
+  <AbilityMask>k__BackingField: "\u0423\u0431\u0435\u0439\u0442\u0435 \u0441\u043C\u0435\u0436\u043D\u044B\u0439
+    \u043E\u0442\u0440\u044F\u0434"
+  commands: 010c12
+  <Image>k__BackingField: {fileID: 21300000, guid: 585f3d046a2c1ca4a85d6e675f304f26, type: 3}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 0dc8f6b5be21a384bb7d1fc86be9ddf4, type: 3}

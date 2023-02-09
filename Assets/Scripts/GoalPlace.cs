@@ -16,14 +16,14 @@ public class GoalPlace : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        image.color = Color.clear;
+        image.color = Color.white;
         goalVisualizer.gameObject.SetActive(true);
         goalVisualizer.VisualizeGoal(rect.position + offset, _goal);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        image.color = Color.white;
+        image.color = Color.gray;
         goalVisualizer.Clear();
         goalVisualizer.gameObject.SetActive(false);
     }

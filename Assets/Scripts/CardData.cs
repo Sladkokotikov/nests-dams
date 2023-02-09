@@ -1,23 +1,39 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New CardData", menuName = "ScriptableObjects/CardData", order = 1)]
 public class CardData : ScriptableObject
 {
-    [field: SerializeField] public int ID { get; private set; }
-    [field: SerializeField] public Tribe Tribe { get; private set; }
+    public int id;
+    public Tribe tribe;
+
+    public string cardName;
+    public string abilityMask;
+
+    public Sprite image;
+    public Sprite icon;
     
-    [field: SerializeField] public string Name { get; private set; }
-    [field: SerializeField] public string AbilityMask { get; private set; }
+    public IEnumerable<byte> Bytecode => ShownCommands.Cast<byte>();
+    
+    public BytecodeBasis Tail =>
+        _hiddenCommands.Count > 0 ? _hiddenCommands[_hiddenCommands.Count - 1] : BytecodeBasis.Confirm;
 
-    [field: SerializeField] public byte[] Bytecode { get; private set; }
+    public IEnumerable<BytecodeBasis> ShownCommands => _hiddenCommands;
+    private List<BytecodeBasis> _hiddenCommands;
 
-    public void Load(int id, Tribe tribe, string cardName, string mask, ConfirmationAbility ability)
+    public void InitHiddenCommands()
     {
-        ID = id;
-        Tribe = tribe;
-        Name = cardName;
-        AbilityMask = mask;
-        Bytecode = ability.Bytecode.ToArray();
+        _hiddenCommands ??= new List<BytecodeBasis>();
+    }
+
+    public void AddCommand(BytecodeBasis command)
+    {
+        _hiddenCommands.Add(command);
+    }
+
+    public void Clear()
+    {
+        _hiddenCommands.Clear();
     }
 }

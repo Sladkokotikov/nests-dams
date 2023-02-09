@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea192ec2c8314d658d8f296617b07cd0, type: 3}
-  m_Name: "\u0411\u043E\u0431\u0451\u0440-\u0437\u0430\u0431\u0438\u044F\u043A\u0430"
+  m_Name: Beaver Cub
   m_EditorClassIdentifier: 
   <ID>k__BackingField: 1
   <Tribe>k__BackingField: 0
-  <Name>k__BackingField: "\u0411\u043E\u0431\u0451\u0440-\u0437\u0430\u0431\u0438\u044F\u043A\u0430"
-  <AbilityMask>k__BackingField: "\u0423\u0431\u0435\u0439\u0442\u0435 \u043E\u0442\u0440\u044F\u0434"
-  <Bytecode>k__BackingField: 0112
+  <Name>k__BackingField: "\u0411\u043E\u0431\u0440\u0451\u043D\u043E\u043A"
+  <AbilityMask>k__BackingField: 
+  commands: 
+  <Image>k__BackingField: {fileID: 21300000, guid: 37300631eed49e34eb75731d5aaca68e, type: 3}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 84beb287df7af7b4fb8977157bfa7c94, type: 3}

@@ -13,20 +13,17 @@ public interface IActionPerformer
     public ActionAbility Kill();
     public ActionAbility Push();
     public ActionAbility Pull();
-    public ActionAbility Convert();
-    public ActionAbility Invert();
     public ActionAbility Lock();
     public ActionAbility Unlock();
     public ActionAbility Draw();
-    public ActionAbility Discard();
 }
 
 public interface ICriteriaPerformer
 {
     public CriteriaAbility Magpie();
     public CriteriaAbility Beaver();
-    public CriteriaAbility Obstacle();
-    public CriteriaAbility Playable();
+    //public CriteriaAbility Obstacle();
+    //public CriteriaAbility Playable();
     public CriteriaAbility Adjacent();
     public CriteriaAbility Surrounding();
     public CriteriaAbility Plus();

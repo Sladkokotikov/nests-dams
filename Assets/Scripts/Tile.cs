@@ -4,11 +4,8 @@ using UnityEngine.UI;
 
 public class Tile : MonoBehaviour , IPointerClickHandler
 {
-    //[SerializeField] private RectTransform rect;
     [SerializeField] private RectTransform rect;
-    public RectTransform Rect => rect;
-    [SerializeField] private RectTransform innerRect;
-    [SerializeField] private Image innerRectImage;
+    [SerializeField] private Image image;
     private Vector2Int _position;
     public RealPlayer Player;
     private int _width;
@@ -19,7 +16,6 @@ public class Tile : MonoBehaviour , IPointerClickHandler
         {
             _width = value;
             rect.sizeDelta = _width * Vector2.one;
-            innerRect.sizeDelta = (_width - 20) * Vector2.one;
             Position = Position;
         }
     }
@@ -41,8 +37,6 @@ public class Tile : MonoBehaviour , IPointerClickHandler
         set
         {
             _occupant = value;
-            //_occupant.ToField(Position);
-            //_occupant.Position = Position;
             if (!_occupant)
                 return;
             _occupant.transform.SetParent(transform, true);
@@ -69,12 +63,12 @@ public class Tile : MonoBehaviour , IPointerClickHandler
 
     public void Highlight()
     {
-        innerRectImage.color = Color.yellow;
+        image.color = Color.yellow;
     }
 
-    public void StopHighlight()
+    private void StopHighlight()
     {
-        innerRectImage.color = Color.white;
+        image.color = Color.white;
     }
 
 
@@ -85,7 +79,4 @@ public class Tile : MonoBehaviour , IPointerClickHandler
         
         Player.SelectTile(Position);
     }
-
-    public Vector2 CalculateFuturePosition(Vector2Int destination)
-        => _width * destination;
 }

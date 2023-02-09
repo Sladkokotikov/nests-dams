@@ -158,7 +158,8 @@ public class Game : MonoBehaviour
         Instantiate(PrefabManager.CardPrefab, transform)
             .With(c => c.Player = _engine.Player)
             .With(c => c.Data = card)
-            .With(c => PlaceCard(c, position));
+            .With(c => PlaceCard(c, position))
+            .With(c => c.VisualizeBirth());
         yield break;
     }
 
@@ -171,8 +172,10 @@ public class Game : MonoBehaviour
 
     public IEnumerator Kill(Vector2Int position)
     {
-        Destroy(_field[position].Occupant.gameObject);
+        var occ = _field[position].Occupant;
         _field[position].Occupant = null;
+        occ.Die();/*
+        _field[position].Occupant = null;*/
         yield break;
     }
 

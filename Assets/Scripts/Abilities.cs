@@ -13,9 +13,9 @@ public class ActionAbility : ICriteriaPerformer, IConfirmationPerformer
 
     public CriteriaAbility Beaver() => new CriteriaAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Beaver)));
 
-    public CriteriaAbility Obstacle()=> new CriteriaAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Obstacle)));
+    //public CriteriaAbility Obstacle()=> new CriteriaAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Obstacle)));
 
-    public CriteriaAbility Playable()=> new CriteriaAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Playable)));
+    //public CriteriaAbility Playable()=> new CriteriaAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Playable)));
 
     public CriteriaAbility Adjacent()=> new CriteriaAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Adjacent)));
 
@@ -50,9 +50,9 @@ public class CriteriaAbility : ICriteriaPerformer, IConfirmationPerformer
 
     public CriteriaAbility Beaver() => new CriteriaAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Beaver)));
 
-    public CriteriaAbility Obstacle()=> new CriteriaAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Obstacle)));
+    //public CriteriaAbility Obstacle()=> new CriteriaAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Obstacle)));
 
-    public CriteriaAbility Playable()=> new CriteriaAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Playable)));
+    //public CriteriaAbility Playable()=> new CriteriaAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Playable)));
 
     public CriteriaAbility Adjacent()=> new CriteriaAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Adjacent)));
 
@@ -97,15 +97,9 @@ public class ConfirmationAbility : IActionPerformer
 
     public ActionAbility Pull()=> new ActionAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Pull)));
 
-    public ActionAbility Convert()=> new ActionAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Convert)));
-
-    public ActionAbility Invert()=> new ActionAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Invert)));
-
     public ActionAbility Lock()=> new ActionAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Lock)));
 
     public ActionAbility Unlock()=> new ActionAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Unlock)));
 
     public ActionAbility Draw()=> new ActionAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Draw)));
-
-    public ActionAbility Discard()=> new ActionAbility(_bytecode.With(list => list.Add((byte) BytecodeBasis.Discard)));
 }
