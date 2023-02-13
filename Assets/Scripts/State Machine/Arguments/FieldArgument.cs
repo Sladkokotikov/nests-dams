@@ -8,39 +8,43 @@ namespace StateMachine.Arguments
 {
     public class FieldArgument : IUniversalArgument
     {
-        private List<FieldSpecification> _specifications;
+        private readonly List<FieldSpecificationType> _specifications;
         private Tribe _selectedTribe;
-        public Declarations Operation { get; }
+        public DeclarationType Operation { get; }
         public ArgumentType Type { get; }
-        public List<ConcreteCards> ConcreteCards { get; }
+        public List<ConcreteCard> ConcreteCards { get; }
 
-        public FieldArgument(byte operation, Tribe selectedTribe = Tribe.None, params FieldSpecification[] argsToFeed)
+        public FieldArgument(byte operation, Tribe selectedTribe = Tribe.None, params FieldSpecificationType[] argsToFeed)
         {
-            Operation = (Declarations) operation;
+            Operation = operation.To<DeclarationType>();
             Type = ArgumentType.Field;
-            ConcreteCards = new List<ConcreteCards>();
-            _specifications = new List<FieldSpecification>();
+            ConcreteCards = new List<ConcreteCard>();
+            _specifications = new List<FieldSpecificationType>();
 
             _selectedTribe = selectedTribe;
 
+            
             foreach (var arg in argsToFeed)
-                Feed((byte) arg);
+                _specifications.Add(arg);
+            
+            Debug.Log(string.Join(" ", _specifications));
+            Debug.Log(_specifications.Count);
         }
 
         public void Feed(byte b)
         {
-            var argType = ((BytecodeBasis) b).Argument();
+            var argType = b.Bb().SpecificationType();
 
             switch (argType)
             {
                 case SpecificationType.Tribe:
-                    _selectedTribe = (Tribe) b;
+                    _selectedTribe = b.To<Tribe>();
                     break;
-                case SpecificationType.FieldSpecification:
-                    _specifications.Add((FieldSpecification) b);
+                case SpecificationType.FieldRule:
+                    _specifications.Add(b.To<FieldSpecificationType>());
                     break;
                 case SpecificationType.ConcreteCard:
-                    ConcreteCards.Add((ConcreteCards) b);
+                    ConcreteCards.Add(b.To<ConcreteCard>());
                     break;
                 default:
                     throw new Exception($"FieldArgument expects Tribe or FieldSpecification but gets {argType}");
@@ -51,7 +55,7 @@ namespace StateMachine.Arguments
             Dictionary<Vector2Int, TileInfo> field)
         {
             Debug.Log(string.Join(" ", _specifications));
-
+            Debug.Log(_specifications.Count);
             IEnumerable<Vector2Int> possibleTiles = field.Keys;
             foreach (var spec in _specifications)
             {

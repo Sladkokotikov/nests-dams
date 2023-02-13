@@ -1,4 +1,3 @@
-using System.Collections;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -36,10 +35,10 @@ public class Card : MonoBehaviour, IDraggable
         set
         {
             _data = value;
-            cardName.text = _data.cardName;
-            cardAbility.text = _data.abilityMask;
-            image.sprite = _data.image;
-            print($"Data set to {_data.cardName}");
+            cardName.text = _data.CardName;
+            cardAbility.text = _data.AbilityMask;
+            image.sprite = _data.Image;
+            print($"Data set to {_data.CardName}");
         }
     }
 
@@ -54,7 +53,7 @@ public class Card : MonoBehaviour, IDraggable
     private int _siblingIndex;
 
     private Vector2Int _position;
-    
+
 
     public Vector2Int Position
     {
@@ -86,7 +85,7 @@ public class Card : MonoBehaviour, IDraggable
         transform.SetParent(Player.Game.transform);
         cardName.gameObject.SetActive(false);
         cardAbility.gameObject.SetActive(false);
-        image.sprite = _data.icon;
+        image.sprite = _data.Icon;
         imageRect.DOSizeDelta(Vector2.one * 100, 0.2f);
         background.color = Color.clear;
     }
@@ -105,7 +104,7 @@ public class Card : MonoBehaviour, IDraggable
         {
             cardName.gameObject.SetActive(true);
             cardAbility.gameObject.SetActive(true);
-            image.sprite = _data.image;
+            image.sprite = _data.Image;
             imageRect.DOSizeDelta(200 * Vector2.one, 0.2f);
             background.color = _color;
             transform.SetParent(hand);
@@ -115,7 +114,6 @@ public class Card : MonoBehaviour, IDraggable
 
         ToField(position.Value);
         Player.PlayCard(this, position.Value);
-        
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -138,7 +136,7 @@ public class Card : MonoBehaviour, IDraggable
         cardName.gameObject.SetActive(false);
         cardAbility.gameObject.SetActive(false);
         background.enabled = false;
-        image.sprite = _data.icon;
+        image.sprite = _data.Icon;
         //imageRect.DOSizeDelta(Vector2.one * 100, 0.2f);
         imageRect.sizeDelta = Vector2.one * 100;
         background.color = Color.clear;
@@ -162,16 +160,13 @@ public class Card : MonoBehaviour, IDraggable
     {
         var newMaterial = Instantiate(dissolve);
         image.material = outlineImage.material = newMaterial;
-        
+
         newMaterial.SetFloat(ServiceLocator.Locator.ConfigurationManager.Fade, 0.8f);
         newMaterial.SetColor(ServiceLocator.Locator.ConfigurationManager.Glow, Color.red);
         DOTween.To(() => newMaterial.GetFloat(ServiceLocator.Locator.ConfigurationManager.Fade),
             f => newMaterial.SetFloat(ServiceLocator.Locator.ConfigurationManager.Fade, f),
             -0.1f,
             3
-        ).OnComplete(() =>
-        {
-            Destroy(gameObject);
-        });
+        ).OnComplete(() => { Destroy(gameObject); });
     }
 }

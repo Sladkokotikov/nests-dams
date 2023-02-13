@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea192ec2c8314d658d8f296617b07cd0, type: 3}
   m_Name: Beaver Cub
   m_EditorClassIdentifier: 
-  id: 1
-  tribe: 0
-  cardName: "\u0411\u043E\u0431\u0440\u0451\u043D\u043E\u043A"
-  abilityMask: "\"\u042F \u043A\u0430\u0440\u0442\u043E\u0448\u043A\""
-  image: {fileID: 21300000, guid: 37300631eed49e34eb75731d5aaca68e, type: 3}
-  icon: {fileID: 21300000, guid: 84beb287df7af7b4fb8977157bfa7c94, type: 3}
-  commands: 
+  <Id>k__BackingField: 1
+  <Tribe>k__BackingField: 19
+  <CardName>k__BackingField: "\u0411\u043E\u0431\u0440\u0451\u043D\u043E\u043A"
+  <AbilityMask>k__BackingField: "\"\u042F \u043A\u0430\u0440\u0442\u043E\u0448\u043A\""
+  <Image>k__BackingField: {fileID: 21300000, guid: 37300631eed49e34eb75731d5aaca68e, type: 3}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 84beb287df7af7b4fb8977157bfa7c94, type: 3}
+  <Commands>k__BackingField: 

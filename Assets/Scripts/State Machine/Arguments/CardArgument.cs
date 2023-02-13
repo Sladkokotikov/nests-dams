@@ -7,16 +7,16 @@ namespace StateMachine.Arguments
     public class CardArgument : IUniversalArgument
     {
         private Tribe _selectedTribe;
-        private CardSource _selectedSource;
-        public Declarations Operation { get; }
+        private CardSourceType _selectedSource;
+        public DeclarationType Operation { get; }
         public ArgumentType Type { get; }
-        public List<ConcreteCards> ConcreteCards { get; }
+        public List<ConcreteCard> ConcreteCards { get; }
 
         public CardArgument(byte operation, params byte[] argsToFeed)
         {
-            Operation = (Declarations) operation;
+            Operation = operation.To<DeclarationType>();
             Type = ArgumentType.Card;
-            ConcreteCards = new List<ConcreteCards>();
+            ConcreteCards = new List<ConcreteCard>();
             foreach (var arg in argsToFeed)
                 Feed(arg);
         }
@@ -28,23 +28,21 @@ namespace StateMachine.Arguments
 
         public void Feed(byte b)
         {
-            var argType = ((BytecodeBasis) b).Argument();
-            switch (argType)
+            var specType = b.Bb().SpecificationType();
+            switch (specType)
             {
                 case SpecificationType.Tribe:
-                    _selectedTribe = (Tribe) b;
+                    _selectedTribe = b.To<Tribe>();
                     break;
                 case SpecificationType.CardSource:
-                    _selectedSource = (CardSource) b;
+                    _selectedSource = b.To<CardSourceType>();
                     break;
                 case SpecificationType.ConcreteCard:
-                    ConcreteCards.Add((ConcreteCards) b);
+                    ConcreteCards.Add(b.To<ConcreteCard>());
                     break;
                 default:
-                    throw new Exception($"CardArgument expects Tribe or CardSource, but gets {argType}");
+                    throw new Exception($"CardArgument expects Tribe or CardSource, but gets {specType}");
             }
         }
-
-        
     }
 }

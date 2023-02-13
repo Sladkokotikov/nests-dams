@@ -1360,6 +1360,7 @@ MonoBehaviour:
   <FieldSize>k__BackingField: {x: 5, y: 5}
   botThinkTimeMin: 0.5
   botThinkTimeMax: 2
+  <StartCardsCount>k__BackingField: 10
 --- !u!1 &1831771533
 GameObject:
   m_ObjectHideFlags: 0

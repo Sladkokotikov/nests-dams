@@ -19,11 +19,11 @@ namespace StateMachine.UpdatedStates
 
         public IState NextState(byte b)
         {
-            var type = ((BytecodeBasis) b).Type();
+            var type = b.Bb().CommandType();
 
             return type switch
             {
-                BasisType.Declaration => new DeclarationState(b),
+                CommandType.Declaration => new DeclarationState(b),
                 _ => throw new Exception($"Application must be followed by Declaration, not by {type}")
             };
         }

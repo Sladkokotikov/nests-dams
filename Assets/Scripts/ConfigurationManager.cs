@@ -12,6 +12,7 @@ public class ConfigurationManager : MonoBehaviour
     [SerializeField] private float botThinkTimeMax;
     public float BotThinkTimeRange => Random.Range(botThinkTimeMin, botThinkTimeMax);
 
+    [field: SerializeField] public int StartCardsCount { get; private set; }
 
     public readonly int Fade = Shader.PropertyToID("_Fade");
     public readonly int Glow = Shader.PropertyToID("_Glow");

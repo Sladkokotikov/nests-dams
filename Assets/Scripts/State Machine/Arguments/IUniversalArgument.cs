@@ -6,8 +6,8 @@ namespace StateMachine.Arguments
     public interface IUniversalArgument
     {
         void Feed(byte b);
-        Declarations Operation { get; }
+        DeclarationType Operation { get; }
         ArgumentType Type { get; }
-        List<ConcreteCards> ConcreteCards { get; }
+        List<ConcreteCard> ConcreteCards { get; }
     }
 }
