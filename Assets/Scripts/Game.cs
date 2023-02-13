@@ -10,35 +10,29 @@ public class Game : MonoBehaviour
     [SerializeField] private RectTransform rect;
     [SerializeField] private RectTransform hand;
     [SerializeField] private RectTransform cardSpawnPoint;
-    [SerializeField] private int tileWidth;
-    
-    [SerializeField] private GoalVisualizer visualizer;
     [SerializeField] private GoalPlace[] goalWaiters;
-    
-    public static int TileWidth;
 
     private GameEngine _engine;
 
 
     private Dictionary<Vector2Int, Tile> _field;
-    [SerializeField]private Vector2Int fieldSize = new Vector2Int(5, 5);
 
 
     [SerializeField] private TMP_Text message;
 
     private void Start()
     {
-        TileWidth = tileWidth;
-        
         Tilt();
-        _engine = new GameEngine(this, fieldSize);
-        
+        _engine = new GameEngine(this, ServiceLocator.Locator.ConfigurationManager.FieldSize);
+
 
         StartCoroutine(_engine.Play());
     }
 
     private void Tilt() => rect.anchoredPosition +=
-        TileWidth / 2f * new Vector2(1 - fieldSize.x % 2, 1 - fieldSize.y % 2);
+        ServiceLocator.Locator.ConfigurationManager.TileWidth / 2f * new Vector2(
+            1 - ServiceLocator.Locator.ConfigurationManager.FieldSize.x % 2,
+            1 - ServiceLocator.Locator.ConfigurationManager.FieldSize.y % 2);
 
     private List<Tile> _temporaryTiles;
 
@@ -51,7 +45,7 @@ public class Game : MonoBehaviour
                 ? _field[point]
                 : Instantiate(PrefabManager.TilePrefab, transform)
                     .With(t => t.Position = point)
-                    .With(t => t.Width = TileWidth)
+                    .With(t => t.Width = ServiceLocator.Locator.ConfigurationManager.TileWidth)
                     .With(t => t.Player = _engine.Player);
             tile.Possible = true;
             if (!_field.ContainsKey(point))
@@ -78,10 +72,10 @@ public class Game : MonoBehaviour
     public IEnumerator ShowField(Dictionary<Vector2Int, TileInfo> field)
     {
         _field = new Dictionary<Vector2Int, Tile>();
-        foreach (var position in field.Keys)
+        foreach (var position in field.Keys.Shuffled())
         {
             yield return Build(position);
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.08f);
         }
     }
 
@@ -91,7 +85,7 @@ public class Game : MonoBehaviour
     public Vector2Int? PlacePosition(Vector3 cardPosition)
     {
         var realPos = cardPosition - rect.position;
-        var pos = Vector2Int.RoundToInt(realPos / TileWidth);
+        var pos = Vector2Int.RoundToInt(realPos / ServiceLocator.Locator.ConfigurationManager.TileWidth);
         if (CanPlaceCard(pos))
             return pos;
         return null;
@@ -149,23 +143,25 @@ public class Game : MonoBehaviour
         _field[position] = Instantiate(PrefabManager.TilePrefab, transform)
             .With(t => t.Position = position)
             .With(t => t.Player = _engine.Player)
-            .With(t => t.Width = TileWidth);
+            .With(t => t.Width = ServiceLocator.Locator.ConfigurationManager.TileWidth)
+            .With(t => t.Build());
         yield break;
     }
 
-    public IEnumerator CreateAndPlaceCard(CardData card, Vector2Int position)
+    public IEnumerator CreateAndPlaceCard(CardData card, Vector2Int position, bool spawn)
     {
         Instantiate(PrefabManager.CardPrefab, transform)
             .With(c => c.Player = _engine.Player)
             .With(c => c.Data = card)
             .With(c => PlaceCard(c, position))
-            .With(c => c.VisualizeBirth());
+            .With(c => c.VisualizeBirth(), spawn);
         yield break;
     }
 
     public IEnumerator Break(Vector2Int position)
     {
-        Destroy(_field[position].gameObject);
+        //Destroy(_field[position].gameObject);
+        _field[position].Break();
         _field.Remove(position);
         yield break;
     }
@@ -174,7 +170,7 @@ public class Game : MonoBehaviour
     {
         var occ = _field[position].Occupant;
         _field[position].Occupant = null;
-        occ.Die();/*
+        occ.Die(); /*
         _field[position].Occupant = null;*/
         yield break;
     }
@@ -193,7 +189,9 @@ public class Game : MonoBehaviour
     {
         var occupantRect = _field[start].Occupant.Rect;
         occupantRect
-            .DOAnchorPos(occupantRect.anchoredPosition + TileWidth * (finish - start), duration)
+            .DOAnchorPos(
+                occupantRect.anchoredPosition +
+                ServiceLocator.Locator.ConfigurationManager.TileWidth * (finish - start), duration)
             .OnComplete(() =>
             {
                 _field[finish].Occupant = _field[start].Occupant;
@@ -202,7 +200,7 @@ public class Game : MonoBehaviour
             })
             .Play();
 
-       
+
         yield return new WaitForSeconds(duration);
     }
 

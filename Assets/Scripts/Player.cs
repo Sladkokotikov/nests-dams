@@ -8,7 +8,7 @@ public abstract class Player
     public string Name { get; }
     protected List<Goal> Goals;
     public IEnumerable<Goal> GetGoals => Goals;
-    public List<CardData> Deck, Hand, Graveyard, Discard;
+    public List<CardData> Deck, Hand, Graveyard;
     public GameEngine Engine { get; set; }
     public Game Game => Engine.Game;
 
@@ -22,7 +22,6 @@ public abstract class Player
         Hand = new List<CardData>();
         Deck = deck;
         Graveyard = new List<CardData>();
-        Discard = new List<CardData>();
 
         Engine = engine;
         Name = name;

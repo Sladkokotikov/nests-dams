@@ -7,12 +7,16 @@ using Random = UnityEngine.Random;
 
 public static class Extensions
 {
-    public static TOut Mutate<TIn, TOut>(this TIn source, Func<TIn, TOut> mutation)
-        => mutation(source);
-
     public static T With<T>(this T source, Action<T> mutation)
     {
         mutation(source);
+        return source;
+    }
+
+    public static T With<T>(this T source, Action<T> mutation, bool condition)
+    {
+        if (condition)
+            mutation(source);
         return source;
     }
 
@@ -20,6 +24,18 @@ public static class Extensions
     {
         var list = source.ToList();
         return list[Random.Range(0, list.Count)];
+    }
+
+    public static IEnumerable<T> Shuffled<T>(this IEnumerable<T> source)
+    {
+        var array = source.ToArray();
+        var indices = Enumerable.Range(0, array.Length).ToList();
+        foreach (var _ in array)
+        {
+            var index = Random.Range(0, indices.Count);
+            yield return array[indices[index]];
+            indices.RemoveAt(index);
+        }
     }
 
     public static void Clear(this Transform source)

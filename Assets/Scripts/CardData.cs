@@ -14,26 +14,6 @@ public class CardData : ScriptableObject
     public Sprite image;
     public Sprite icon;
     
-    public IEnumerable<byte> Bytecode => ShownCommands.Cast<byte>();
-    
-    public BytecodeBasis Tail =>
-        _hiddenCommands.Count > 0 ? _hiddenCommands[_hiddenCommands.Count - 1] : BytecodeBasis.Confirm;
-
-    public IEnumerable<BytecodeBasis> ShownCommands => _hiddenCommands;
-    private List<BytecodeBasis> _hiddenCommands;
-
-    public void InitHiddenCommands()
-    {
-        _hiddenCommands ??= new List<BytecodeBasis>();
-    }
-
-    public void AddCommand(BytecodeBasis command)
-    {
-        _hiddenCommands.Add(command);
-    }
-
-    public void Clear()
-    {
-        _hiddenCommands.Clear();
-    }
+    public IEnumerable<byte> Bytecode => commands.Cast<byte>();
+    public List<BytecodeBasis> commands;
 }

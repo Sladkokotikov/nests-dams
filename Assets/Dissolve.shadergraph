@@ -2960,7 +2960,7 @@
     },
     "m_Name": "Scale",
     "m_DefaultReferenceName": "Vector1_fa29b5b6626f4aa4af3d2f66019d7bb7",
-    "m_OverrideReferenceName": "",
+    "m_OverrideReferenceName": "_Scale",
     "m_GeneratePropertyBlock": true,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,

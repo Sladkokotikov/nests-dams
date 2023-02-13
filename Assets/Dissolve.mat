@@ -60,13 +60,13 @@ Material:
     - Vector1_856e49de198e479f91a702cc70b1b3b1: 0.1
     - Vector1_fa29b5b6626f4aa4af3d2f66019d7bb7: 20
     - _EnableExternalAlpha: 0
-    - _Fade: -0.100000024
+    - _Fade: 0.43
     m_Colors:
     - Color_c72f37caa1ab4551ba36c42a7fcc226d: {r: 0.12763119, g: 1, b: 0, a: 1}
     - Vector2_80e6135fdd1449868017cc9bcfb6082e: {r: 1.2, g: 1.2, b: 0, a: 0}
     - Vector2_caeab4efd2c244a6bf0378f1c227fa31: {r: -0.3, g: -0.32, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _Glow: {r: 1, g: 0, b: 0, a: 1}
+    - _Glow: {r: 0, g: 1, b: 0, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

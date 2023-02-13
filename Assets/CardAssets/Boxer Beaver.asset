@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea192ec2c8314d658d8f296617b07cd0, type: 3}
   m_Name: Boxer Beaver
   m_EditorClassIdentifier: 
-  <ID>k__BackingField: 2
-  <Tribe>k__BackingField: 0
-  <Name>k__BackingField: "\u0411\u043E\u0431\u0451\u0440-\u0411\u043E\u043A\u0441\u0451\u0440"
-  <AbilityMask>k__BackingField: "\u041E\u0442\u0442\u043E\u043B\u043A\u043D\u0438\u0442\u0435
+  id: 2
+  tribe: 0
+  cardName: "\u0411\u043E\u0431\u0451\u0440-\u0411\u043E\u043A\u0441\u0451\u0440"
+  abilityMask: "\u041E\u0442\u0442\u043E\u043B\u043A\u043D\u0438\u0442\u0435 \u0441\u043C\u0435\u0436\u043D\u044B\u0439
     \u043E\u0442\u0440\u044F\u0434"
-  commands: 0212
-  <Image>k__BackingField: {fileID: 21300000, guid: a81caa3a1b51faa40adee0b0161128df, type: 3}
-  <Icon>k__BackingField: {fileID: 21300000, guid: bb69adee5f5ddb343bb0895d7d0de343, type: 3}
+  image: {fileID: 21300000, guid: a81caa3a1b51faa40adee0b0161128df, type: 3}
+  icon: {fileID: 21300000, guid: bb69adee5f5ddb343bb0895d7d0de343, type: 3}
+  commands: 020f

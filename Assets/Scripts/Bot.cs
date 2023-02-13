@@ -13,7 +13,7 @@ public class Bot : Player
             yield break;
         var card = Hand[0];
         
-        yield return Engine.CreateAndPlaceCard(card);
+        yield return Engine.PlayBotCard(card);
         Hand.RemoveAt(0);
     }
 

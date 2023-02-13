@@ -54,8 +54,7 @@ public class Card : MonoBehaviour, IDraggable
     private int _siblingIndex;
 
     private Vector2Int _position;
-    private static readonly int Fade = Shader.PropertyToID("_Fade");
-    private static readonly int Glow = Shader.PropertyToID("_Glow");
+    
 
     public Vector2Int Position
     {
@@ -63,7 +62,7 @@ public class Card : MonoBehaviour, IDraggable
         set
         {
             _position = value;
-            rect.anchoredPosition = Game.TileWidth * value;
+            rect.anchoredPosition = ServiceLocator.Locator.ConfigurationManager.TileWidth * value;
         }
     }
 
@@ -115,8 +114,8 @@ public class Card : MonoBehaviour, IDraggable
         }
 
         ToField(position.Value);
-        Player.PlayedCard = this;
-        Player.CardPosition = position.Value;
+        Player.PlayCard(this, position.Value);
+        
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -148,12 +147,12 @@ public class Card : MonoBehaviour, IDraggable
 
     public void VisualizeBirth()
     {
-        image.material = dissolve;
-        outlineImage.material = dissolve;
-        image.material.SetFloat(Fade, -0.1f);
-        dissolve.SetColor(Glow, Color.green);
-        DOTween.To(() => dissolve.GetFloat(Fade),
-            f => dissolve.SetFloat(Fade, f),
+        var newMaterial = Instantiate(dissolve);
+        image.material = outlineImage.material = newMaterial;
+        newMaterial.SetFloat(ServiceLocator.Locator.ConfigurationManager.Fade, -0.1f);
+        newMaterial.SetColor(ServiceLocator.Locator.ConfigurationManager.Glow, Color.green);
+        DOTween.To(() => newMaterial.GetFloat(ServiceLocator.Locator.ConfigurationManager.Fade),
+            f => newMaterial.SetFloat(ServiceLocator.Locator.ConfigurationManager.Fade, f),
             0.8f,
             3
         ).OnComplete(() => image.material = outlineImage.material = null);
@@ -161,12 +160,13 @@ public class Card : MonoBehaviour, IDraggable
 
     public void Die()
     {
-        image.material = dissolve;
-        outlineImage.material = dissolve;
-        image.material.SetFloat(Fade, 0.8f);
-        dissolve.SetColor(Glow, Color.red);
-        DOTween.To(() => dissolve.GetFloat(Fade),
-            f => dissolve.SetFloat(Fade, f),
+        var newMaterial = Instantiate(dissolve);
+        image.material = outlineImage.material = newMaterial;
+        
+        newMaterial.SetFloat(ServiceLocator.Locator.ConfigurationManager.Fade, 0.8f);
+        newMaterial.SetColor(ServiceLocator.Locator.ConfigurationManager.Glow, Color.red);
+        DOTween.To(() => newMaterial.GetFloat(ServiceLocator.Locator.ConfigurationManager.Fade),
+            f => newMaterial.SetFloat(ServiceLocator.Locator.ConfigurationManager.Fade, f),
             -0.1f,
             3
         ).OnComplete(() =>

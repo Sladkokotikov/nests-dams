@@ -6,13 +6,13 @@ public class RealPlayer : Player
 {
     public bool CanPlayCard { get; private set; }
 
-    public bool IsCardPlayed => !(CardPosition is null);
+    private bool IsCardPlayed { get; set; }
     public Card PlayedCard { get; set; }
-    public Vector2Int? CardPosition { get; set; }
+    public Vector2Int CardPosition { get; set; }
 
     public bool CanSelectTile { get; private set; }
-    private bool IsTileSelected => !(TilePosition is null);
-    public Vector2Int? TilePosition { get; private set; }
+    private bool IsTileSelected { get; set; }
+    public Vector2Int TilePosition { get; private set; }
 
     public RealPlayer(GameEngine engine, string name, List<Goal> goals, List<CardData> deck) : base(engine, name, goals,
         deck)
@@ -22,8 +22,8 @@ public class RealPlayer : Player
     public override IEnumerator MakeTurn()
     {
         yield return GetCard();
-        if (CardPosition != null)
-            yield return Engine.PlaceCard(PlayedCard, CardPosition.Value);
+        if (IsCardPlayed)
+            yield return Engine.PlaceCard(PlayedCard, CardPosition);
     }
 
     public override IEnumerator DrawCard()
@@ -52,13 +52,20 @@ public class RealPlayer : Player
 
     public void SelectTile(Vector2Int position)
     {
-        Debug.Log($"Selected tile: {position}");
         TilePosition = position;
+        IsTileSelected = true;
     }
 
     public void Reset()
     {
-        TilePosition = null;
-        CardPosition = null;
+        IsTileSelected = false;
+        IsCardPlayed = false;
+    }
+
+    public void PlayCard(Card card, Vector2Int position)
+    {
+        PlayedCard = card;
+        CardPosition = position;
+        IsCardPlayed = true;
     }
 }
