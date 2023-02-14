@@ -24,7 +24,8 @@ namespace StateMachine.Arguments
 
         public IEnumerable<CardData> GetPossibleCards(Player player, Player bot)
         {
-            throw new NotImplementedException();
+            //TODO
+            return null;
         }
 
         public void Feed(byte b)

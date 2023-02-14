@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0.81560946, a: 0.68235296}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -504,6 +504,8 @@ GameObject:
   m_Component:
   - component: {fileID: 9127047320750392797}
   - component: {fileID: 9127047320750392796}
+  - component: {fileID: 5169615974115665722}
+  - component: {fileID: 3830286072080219701}
   m_Layer: 5
   m_Name: CardPrefab
   m_TagString: Untagged
@@ -543,15 +545,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f64ab5af5a8ce984a891b1b5b02f7720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rect: {fileID: 9127047320750392797}
+  <CardAnimation>k__BackingField: {fileID: 5169615974115665722}
+  <CardMovement>k__BackingField: {fileID: 3830286072080219701}
+--- !u!114 &5169615974115665722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9127047320750392798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7d7e7e709780274393022fd5b9b02d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  card: {fileID: 9127047320750392796}
   dissolve: {fileID: 2100000, guid: a74aaa5b818255243b85a3ab15d25952, type: 2}
+  <CardName>k__BackingField: {fileID: 9127047319547733922}
+  <CardAbility>k__BackingField: {fileID: 9127047320412820195}
+  <Image>k__BackingField: {fileID: 9127047321135290195}
+  <OutlineImage>k__BackingField: {fileID: 6075528531129351974}
+  <ImageRect>k__BackingField: {fileID: 9127047321135290196}
+  <Background>k__BackingField: {fileID: 9127047320119072970}
+--- !u!114 &3830286072080219701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9127047320750392798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f5ddef8a18e7034ba2806bfb8434683, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Card>k__BackingField: {fileID: 9127047320750392796}
+  <CardAnimation>k__BackingField: {fileID: 5169615974115665722}
   hand: {fileID: 0}
-  cardName: {fileID: 9127047319547733922}
-  cardAbility: {fileID: 9127047320412820195}
-  image: {fileID: 9127047321135290195}
-  outlineImage: {fileID: 6075528531129351974}
-  imageRect: {fileID: 9127047321135290196}
-  background: {fileID: 9127047320119072970}
+  rect: {fileID: 9127047320750392797}
 --- !u!1 &9127047321135290197
 GameObject:
   m_ObjectHideFlags: 0

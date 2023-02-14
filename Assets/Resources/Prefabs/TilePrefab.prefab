@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 8512679852540845270}
   - component: {fileID: 8512679852540845271}
   - component: {fileID: 8512679852540845269}
-  - component: {fileID: 1876226380465626723}
+  - component: {fileID: 689174726980902768}
   m_Layer: 5
   m_Name: TilePrefab
   m_TagString: Untagged
@@ -165,12 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1859a9aee8b649318397515457f77f8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  innerRect: {fileID: 5960057546550961681}
-  outerRect: {fileID: 8512679852540845272}
-  innerImage: {fileID: 6548083770268167386}
-  outerImage: {fileID: 8512679852540845271}
-  dissolve: {fileID: 2100000, guid: a74aaa5b818255243b85a3ab15d25952, type: 2}
---- !u!114 &1876226380465626723
+  <TileAnimation>k__BackingField: {fileID: 689174726980902768}
+--- !u!114 &689174726980902768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,7 +175,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8512679852540845273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b44c5bea92907040a6031cd8d5d1985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 1
+  dissolve: {fileID: 2100000, guid: a74aaa5b818255243b85a3ab15d25952, type: 2}
+  <InnerRect>k__BackingField: {fileID: 5960057546550961681}
+  <OuterRect>k__BackingField: {fileID: 8512679852540845272}
+  <InnerImage>k__BackingField: {fileID: 6548083770268167386}
+  <OuterImage>k__BackingField: {fileID: 8512679852540845271}
+  <Tile>k__BackingField: {fileID: 8512679852540845269}

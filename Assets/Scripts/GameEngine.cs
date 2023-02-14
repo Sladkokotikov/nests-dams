@@ -123,13 +123,14 @@ public class GameEngine
 
     #endregion
 
-    public IEnumerator PlaceCard(Card card, Vector2Int position)
+    public IEnumerator PlaceCard(CardMovement card, Vector2Int position)
     {
         _playedPosition = position;
         Game.PlaceCard(card, position);
-        _field[position] = TileInfo.Create(card.Data.Tribe, card.Data.Id);
+        var cardData = card.Card.Data;
+        _field[position] = TileInfo.Create(cardData.Tribe,cardData.Id);
         _currentState = new ApplicationState();
-        yield return ApplyFullAbility(card.Data);
+        yield return ApplyFullAbility(cardData);
     }
 
     public IEnumerator PlayBotCard(CardData data)
@@ -164,6 +165,8 @@ public class GameEngine
             _currentState = new ApplicationState();
             Player.Reset();
         }
+
+        Player.Reset();
     }
 
     private IEnumerator ApplyState(ApplicationType t)
@@ -180,15 +183,26 @@ public class GameEngine
                 yield return ApplyFieldAbility((FieldArgument) arg, t);
                 break;
             case ArgumentType.Card:
-                yield return ApplyCardAbility((CardArgument) arg, t);
+                yield return t == ApplicationType.ConfirmAuto
+                    ? DoCardOperation((CardArgument) arg)
+                    : throw new Exception("Card abilities should be confirmed automatically");
                 break;
         }
     }
 
-    private IEnumerator ApplyCardAbility(CardArgument cardArgument, ApplicationType applicationType)
+    private IEnumerator DoCardOperation(CardArgument argument)
     {
-        Debug.Log("Card Ability applied");
-        yield break;
+        // var player = argument.GetAffectedPlayer();
+        // var possibleCards = argument.GetPossibleCards(Player, Bot).ToArray();
+        // if (possibleCards.Length == 0)
+        //     yield break;
+        var possibleCards = argument.GetPossibleCards(Player, Bot);
+        switch (argument.Operation.To<DeclarationType, CardOperationType>())
+        {
+            case CardOperationType.Draw:
+                yield return _currentPlayer.DrawCard();
+                break;
+        }
     }
 
     private IEnumerator ApplyFieldAbility(FieldArgument fieldArgument, ApplicationType applicationType)
@@ -216,23 +230,23 @@ public class GameEngine
         }
 
         foreach (var tile in tilesToDo)
-            yield return DoOperation(fieldArgument, tile);
+            yield return DoFieldOperation(fieldArgument, tile);
     }
 
-    private IEnumerator DoOperation(IUniversalArgument argument, Vector2Int position)
+    private IEnumerator DoFieldOperation(IUniversalArgument argument, Vector2Int position)
     {
-        switch (argument.Operation)
+        switch (argument.Operation.To<DeclarationType, FieldOperationType>())
         {
-            case DeclarationType.Spawn:
+            case FieldOperationType.Spawn:
                 var data = ServiceLocator.Locator.CardManager.GetCard(argument.ConcreteCards[0]);
                 _field[position] = TileInfo.Create(data.Tribe, data.Id);
                 yield return Game.CreateAndPlaceCard(data, position, true);
                 break;
-            case DeclarationType.Kill:
+            case FieldOperationType.Kill:
                 _field[position] = TileInfo.FreeTile;
                 yield return Game.Kill(position);
                 break;
-            case DeclarationType.Push:
+            case FieldOperationType.Push:
                 var pushDelta = position - _playedPosition;
                 var pushFinish = position;
                 var pushStartTileInfo = _field[position];
@@ -242,7 +256,7 @@ public class GameEngine
                 _field[pushFinish] = pushStartTileInfo;
                 yield return Game.Push(position, pushFinish);
                 break;
-            case DeclarationType.Pull:
+            case FieldOperationType.Pull:
                 var pullDelta = position - _playedPosition;
                 pullDelta = new Vector2Int(pullDelta.x > 0 ? 1 : pullDelta.x < 0 ? -1 : 0,
                     pullDelta.y > 0 ? 1 : pullDelta.y < 0 ? -1 : 0);
@@ -252,28 +266,23 @@ public class GameEngine
                 _field[pullFinish] = pullStartTileInfo;
                 yield return Game.Pull(position, pullFinish);
                 break;
-            case DeclarationType.Draw:
-                yield return _currentPlayer.DrawCard();
-                break;
-            case DeclarationType.Lock:
+            case FieldOperationType.Lock:
                 var obstacleData = ServiceLocator.Locator.CardManager.Obstacle;
                 _field[position] = TileInfo.Create(obstacleData.Tribe, obstacleData.Id);
                 yield return Game.CreateAndPlaceCard(obstacleData, position, true);
                 break;
-            case DeclarationType.Unlock:
+            case FieldOperationType.Unlock:
                 _field[position] = TileInfo.FreeTile;
                 yield return Game.Kill(position);
                 break;
-            case DeclarationType.Break:
+            case FieldOperationType.Break:
                 _field.Remove(position);
                 yield return Game.Break(position);
                 break;
-            case DeclarationType.Build:
+            case FieldOperationType.Build:
                 _field[position] = TileInfo.FreeTile;
                 yield return Game.Build(position);
                 break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(argument.Operation), argument.Operation, null);
         }
     }
 }

@@ -6,14 +6,14 @@
         ConfirmRandom,
         ConfirmAuto,
     }
-    
+
     public enum ArgumentType
     {
         Field,
         Card
     }
-    
-    public enum CardSourceType: byte
+
+    public enum CardSourceType : byte
     {
         PlayerDeck,
         PlayerGraveyard,
@@ -21,14 +21,14 @@
         OpponentDeck,
         OpponentGraveyard,
     }
-    
+
     public enum CommandType
     {
         Declaration,
         Specification,
         Application
     }
-    
+
     public enum DeclarationType
     {
         Spawn,
@@ -36,12 +36,32 @@
         Push,
         Pull,
         Draw,
+        /*Discard,
+        Steal,*/
         Lock,
         Unlock,
         Break,
         Build,
     }
-    
+
+    public enum CardOperationType
+    {
+        Draw,
+        //Discard
+    }
+
+    public enum FieldOperationType
+    {
+        Spawn,
+        Kill,
+        Push,
+        Pull,
+        Lock,
+        Unlock,
+        Break,
+        Build,
+    }
+
     public enum FieldSpecificationType
     {
         OuterEdge,
@@ -50,7 +70,7 @@
         Plus,
         Edge,
     }
-    
+
     public enum SpecificationType
     {
         CardSource,
@@ -59,7 +79,7 @@
         FieldRule,
         AllControl
     }
-    
+
     public enum ConcreteCard
     {
         BeaverCub,

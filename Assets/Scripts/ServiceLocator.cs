@@ -13,6 +13,7 @@ public class ServiceLocator:MonoBehaviour
             Locator = this;
     }
 
+    [field: SerializeField] public PrefabManager PrefabManager { get; private set; }
     [field: SerializeField] public CardManager CardManager { get; private set; }
     [field: SerializeField] public SpriteManager SpriteManager { get; private set; }
     [field: SerializeField] public ConfigurationManager ConfigurationManager { get; private set; }

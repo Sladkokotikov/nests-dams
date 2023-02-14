@@ -1,19 +1,8 @@
-using System;
 using UnityEngine;
 
-public static class PrefabManager
+public class PrefabManager:MonoBehaviour
 {
-    private static readonly Lazy<Tile> Tile = new Lazy<Tile>(() => Resources.Load<Tile>("Prefabs/TilePrefab"));
-    public static Tile TilePrefab => Tile.Value;
-    
-    private static readonly Lazy<Card> Card = new Lazy<Card>(() => Resources.Load<Card>("Prefabs/CardPrefab"));
-    public static Card CardPrefab => Card.Value;
-    
-    private static readonly Lazy<RectTransform> Empty = new Lazy<RectTransform>(() => Resources.Load<RectTransform>("Prefabs/EmptyPrefab"));
-    public static RectTransform EmptyPrefab => Empty.Value;
-    
-    
-    
-    /*private static readonly Lazy<Sprite> CommonMagpie = new Lazy<Sprite>(() => Resources.Load<Sprite>("Sprites/CommonMagpie"));
-    public static Sprite CommonMagpieSprite => CommonMagpie.Value;*/
+    [field: SerializeField] public CardMovement CardPrefab { get; private set; }
+    [field: SerializeField] public RectTransform EmptyPrefab { get; private set; }
+    [field: SerializeField] public TileAnimation TilePrefab { get; private set; }
 }

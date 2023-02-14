@@ -7,7 +7,7 @@ public class RealPlayer : Player
     public bool CanPlayCard { get; private set; }
 
     private bool IsCardPlayed { get; set; }
-    public Card PlayedCard { get; set; }
+    public CardMovement PlayedCard { get; set; }
     public Vector2Int CardPosition { get; set; }
 
     public bool CanSelectTile { get; private set; }
@@ -62,7 +62,7 @@ public class RealPlayer : Player
         IsCardPlayed = false;
     }
 
-    public void PlayCard(Card card, Vector2Int position)
+    public void PlayCard(CardMovement card, Vector2Int position)
     {
         PlayedCard = card;
         CardPosition = position;

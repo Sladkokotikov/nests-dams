@@ -101,4 +101,7 @@ public static class EngineExtensions
 
     public static T To<T>(this byte b)
         => (T) Enum.Parse(typeof(T), b.Bb().ToString());
+    
+    public static TOut To<TIn, TOut>(this TIn b)
+        => (TOut) Enum.Parse(typeof(TOut), b.ToString());
 }

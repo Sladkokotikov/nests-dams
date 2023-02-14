@@ -15,7 +15,7 @@ public class Game : MonoBehaviour
     private GameEngine _engine;
 
 
-    private Dictionary<Vector2Int, Tile> _field;
+    private Dictionary<Vector2Int, TileAnimation> _field;
 
 
     [SerializeField] private TMP_Text message;
@@ -34,21 +34,21 @@ public class Game : MonoBehaviour
             1 - ServiceLocator.Locator.ConfigurationManager.FieldSize.x % 2,
             1 - ServiceLocator.Locator.ConfigurationManager.FieldSize.y % 2);
 
-    private List<Tile> _temporaryTiles;
+    private List<TileAnimation> _temporaryTiles;
 
     public IEnumerator ShowPossibleTiles(IEnumerable<Vector2Int> selectedPoints)
     {
-        _temporaryTiles = new List<Tile>();
+        _temporaryTiles = new List<TileAnimation>();
         foreach (var point in selectedPoints.Shuffled().ToList())
         {
             var tile = _field.ContainsKey(point)
                 ? _field[point]
-                : Instantiate(PrefabManager.TilePrefab, transform)
-                    .With(t => t.Position = point)
+                : Instantiate(ServiceLocator.Locator.PrefabManager.TilePrefab, transform)
+                    .With(t => t.Tile.Position = point)
                     .With(t => t.Width = ServiceLocator.Locator.ConfigurationManager.TileWidth)
-                    .With(t => t.Player = _engine.Player)
+                    .With(t => t.Tile.Player = _engine.Player)
                     .With(t => t.Build(ServiceLocator.Locator.AnimationManager.TileShowDuration));
-            tile.Possible = true;
+            tile.Tile.Possible = true;
             if (!_field.ContainsKey(point))
                 _temporaryTiles.Add(tile);
         }
@@ -74,7 +74,7 @@ public class Game : MonoBehaviour
 
     public IEnumerator ShowField(Dictionary<Vector2Int, TileInfo> field)
     {
-        _field = new Dictionary<Vector2Int, Tile>();
+        _field = new Dictionary<Vector2Int, TileAnimation>();
         foreach (var position in field.Keys.Shuffled())
         {
             yield return Build(position);
@@ -83,7 +83,7 @@ public class Game : MonoBehaviour
     }
 
     private bool CanPlaceCard(Vector2Int pos)
-        => _field.ContainsKey(pos) && _field[pos].Free;
+        => _field.ContainsKey(pos) && _field[pos].Tile.Free;
 
     public Vector2Int? PlacePosition(Vector3 cardPosition)
     {
@@ -94,24 +94,24 @@ public class Game : MonoBehaviour
         return null;
     }
 
-    public void PlaceCard(Card card, Vector2Int position)
+    public void PlaceCard(CardMovement card, Vector2Int position)
     {
         card.ToField(position);
         //card.transform.SetParent(_field[position].transform, true);
-        _field[position].Occupant = card;
+        _field[position].Tile.Occupant = card;
         card.Parent = _field[position];
     }
 
     public IEnumerator ShowCard(CardData data)
     {
         var handPos = hand.position + Vector3.right * 120 * hand.childCount;
-        var dummy = Instantiate(PrefabManager.EmptyPrefab)
+        var dummy = Instantiate(ServiceLocator.Locator.PrefabManager.EmptyPrefab)
             .With(r => r.SetParent(hand));
 
 
-        var card = Instantiate(PrefabManager.CardPrefab, transform)
+        var card = Instantiate(ServiceLocator.Locator.PrefabManager.CardPrefab, transform)
             .With(c => c.Player = _engine.Player)
-            .With(c => c.Data = data)
+            .With(c => c.Card.Data = data)
             .With(c => c.hand = hand)
             .With(c => c.RectPosition = cardSpawnPoint.position);
 
@@ -134,7 +134,7 @@ public class Game : MonoBehaviour
     public IEnumerator HidePossibleTiles(IEnumerable<Vector2Int> possibleTiles)
     {
         foreach (var tile in possibleTiles.Where(p => _field.ContainsKey(p)))
-            _field[tile].Possible = false;
+            _field[tile].Tile.Possible = false;
 
         foreach (var tile in _temporaryTiles)
             tile.Break(ServiceLocator.Locator.AnimationManager.TileHideDuration);
@@ -142,14 +142,14 @@ public class Game : MonoBehaviour
 
         //Destroy(tile.gameObject);
         yield return new WaitForSeconds(ServiceLocator.Locator.AnimationManager.TileHideDuration);
-        _temporaryTiles = new List<Tile>();
+        _temporaryTiles = new List<TileAnimation>();
     }
 
     public IEnumerator Build(Vector2Int position)
     {
-        _field[position] = Instantiate(PrefabManager.TilePrefab, transform)
-            .With(t => t.Position = position)
-            .With(t => t.Player = _engine.Player)
+        _field[position] = Instantiate(ServiceLocator.Locator.PrefabManager.TilePrefab, transform)
+            .With(t => t.Tile.Position = position)
+            .With(t => t.Tile.Player = _engine.Player)
             .With(t => t.Width = ServiceLocator.Locator.ConfigurationManager.TileWidth)
             .With(t => t.Build(ServiceLocator.Locator.AnimationManager.TileBuildDuration));
         yield break;
@@ -157,11 +157,11 @@ public class Game : MonoBehaviour
 
     public IEnumerator CreateAndPlaceCard(CardData card, Vector2Int position, bool spawn)
     {
-        Instantiate(PrefabManager.CardPrefab, transform)
+        Instantiate(ServiceLocator.Locator.PrefabManager.CardPrefab, transform)
             .With(c => c.Player = _engine.Player)
-            .With(c => c.Data = card)
+            .With(c => c.Card.Data = card)
             .With(c => PlaceCard(c, position))
-            .With(c => c.VisualizeBirth(), spawn);
+            .With(c => c.CardAnimation.VisualizeBirth(), spawn);
         yield break;
     }
 
@@ -175,9 +175,9 @@ public class Game : MonoBehaviour
 
     public IEnumerator Kill(Vector2Int position)
     {
-        var occ = _field[position].Occupant;
-        _field[position].Occupant = null;
-        occ.Die(); /*
+        var occ = _field[position].Tile.Occupant;
+        _field[position].Tile.Occupant = null;
+        occ.CardAnimation.Die(); /*
         _field[position].Occupant = null;*/
         yield break;
     }
@@ -194,16 +194,16 @@ public class Game : MonoBehaviour
 
     private IEnumerator Move(Vector2Int start, Vector2Int finish, float duration)
     {
-        var occupantRect = _field[start].Occupant.Rect;
+        var occupantRect = _field[start].Tile.Occupant.Rect;
         occupantRect
             .DOAnchorPos(
                 occupantRect.anchoredPosition +
                 ServiceLocator.Locator.ConfigurationManager.TileWidth * (finish - start), duration)
             .OnComplete(() =>
             {
-                _field[finish].Occupant = _field[start].Occupant;
-                _field[finish].Occupant.Parent = _field[finish];
-                _field[start].Occupant = null;
+                _field[finish].Tile.Occupant = _field[start].Tile.Occupant;
+                _field[finish].Tile.Occupant.Parent = _field[finish];
+                _field[start].Tile.Occupant = null;
             })
             .Play();
 
