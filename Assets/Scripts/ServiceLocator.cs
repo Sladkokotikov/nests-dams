@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 
 public class ServiceLocator:MonoBehaviour
 {
@@ -15,4 +16,5 @@ public class ServiceLocator:MonoBehaviour
     [field: SerializeField] public CardManager CardManager { get; private set; }
     [field: SerializeField] public SpriteManager SpriteManager { get; private set; }
     [field: SerializeField] public ConfigurationManager ConfigurationManager { get; private set; }
+    [field: SerializeField] public AnimationManager AnimationManager { get; private set; }
 }

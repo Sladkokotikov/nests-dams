@@ -9,5 +9,6 @@ namespace StateMachine.Arguments
         DeclarationType Operation { get; }
         ArgumentType Type { get; }
         List<ConcreteCard> ConcreteCards { get; }
+        bool All { get; }
     }
 }

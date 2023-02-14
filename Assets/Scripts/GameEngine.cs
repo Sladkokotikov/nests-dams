@@ -48,32 +48,15 @@ public class GameEngine
                 new Goal(Tribe.Magpie, Vector2Int.up, Vector2Int.up + Vector2Int.up),
                 new Goal(Tribe.Magpie, Vector2Int.one, Vector2Int.one + Vector2Int.one),
             },
-            new List<CardData>
-            {
-                ServiceLocator.Locator.CardManager.GetCard(0),
-                ServiceLocator.Locator.CardManager.GetCard(1),
-                ServiceLocator.Locator.CardManager.GetCard(2),
-                ServiceLocator.Locator.CardManager.GetCard(3),
-                ServiceLocator.Locator.CardManager.GetCard(4),
-                ServiceLocator.Locator.CardManager.GetCard(5),
-            });
+            ServiceLocator.Locator.CardManager.StartDeck);
         Game.SavePlayerGoals(Player.GetGoals);
         Bot = new Bot(this,
             "Bot",
             new List<Goal> {new Goal(Tribe.Magpie, Vector2Int.up)},
-            new List<CardData>
-            {
-                //ServiceLocator.Locator.CardManager.GetCard(0),
-                // ServiceLocator.Locator.CardManager.GetCard(1),
-                // ServiceLocator.Locator.CardManager.GetCard(2),
-                // ServiceLocator.Locator.CardManager.GetCard(3),
-                //ServiceLocator.Locator.CardManager.GetCard(4),
-                //ServiceLocator.Locator.CardManager.GetCard(5),
-            });
+            ServiceLocator.Locator.CardManager.StartBotDeck);
     }
 
     #endregion
-
 
     #region Methods
 
@@ -179,9 +162,8 @@ public class GameEngine
                 continue;
             yield return ApplyState(correctByte.To<ApplicationType>());
             _currentState = new ApplicationState();
+            Player.Reset();
         }
-
-        Player.Reset();
     }
 
     private IEnumerator ApplyState(ApplicationType t)
@@ -192,12 +174,15 @@ public class GameEngine
 
     private IEnumerator HandleAbility(IUniversalArgument arg, ApplicationType t)
     {
-        yield return arg.Type switch
+        switch (arg.Type)
         {
-            ArgumentType.Field => ApplyFieldAbility((FieldArgument) arg, t),
-            ArgumentType.Card => ApplyCardAbility((CardArgument) arg, t),
-            _ => throw new ArgumentOutOfRangeException()
-        };
+            case ArgumentType.Field:
+                yield return ApplyFieldAbility((FieldArgument) arg, t);
+                break;
+            case ArgumentType.Card:
+                yield return ApplyCardAbility((CardArgument) arg, t);
+                break;
+        }
     }
 
     private IEnumerator ApplyCardAbility(CardArgument cardArgument, ApplicationType applicationType)
@@ -211,17 +196,27 @@ public class GameEngine
         var possibleTiles = fieldArgument.GetPossibleTiles(_playedPosition, _field).ToArray();
         if (possibleTiles.Length == 0)
             yield break;
-        var tile = possibleTiles.Choose();
 
-        if (applicationType == ApplicationType.Confirm)
+        var tilesToDo = new List<Vector2Int>();
+        switch (applicationType)
         {
-            Game.ShowPossibleTiles(possibleTiles);
-            yield return Player.Confirm();
-            Game.HidePossibleTiles(possibleTiles);
-            tile = Player.TilePosition;
+            case ApplicationType.Confirm:
+                yield return Game.ShowPossibleTiles(possibleTiles);
+                yield return Player.Confirm();
+                yield return Game.HidePossibleTiles(possibleTiles);
+                tilesToDo.Add(Player.TilePosition);
+                break;
+            case ApplicationType.ConfirmRandom:
+                tilesToDo.Add(possibleTiles.Choose());
+                break;
+            case ApplicationType.ConfirmAuto:
+                if (fieldArgument.All)
+                    tilesToDo.AddRange(possibleTiles);
+                break;
         }
 
-        yield return DoOperation(fieldArgument, tile);
+        foreach (var tile in tilesToDo)
+            yield return DoOperation(fieldArgument, tile);
     }
 
     private IEnumerator DoOperation(IUniversalArgument argument, Vector2Int position)
@@ -261,8 +256,13 @@ public class GameEngine
                 yield return _currentPlayer.DrawCard();
                 break;
             case DeclarationType.Lock:
+                var obstacleData = ServiceLocator.Locator.CardManager.Obstacle;
+                _field[position] = TileInfo.Create(obstacleData.Tribe, obstacleData.Id);
+                yield return Game.CreateAndPlaceCard(obstacleData, position, true);
                 break;
             case DeclarationType.Unlock:
+                _field[position] = TileInfo.FreeTile;
+                yield return Game.Kill(position);
                 break;
             case DeclarationType.Break:
                 _field.Remove(position);

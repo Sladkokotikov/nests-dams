@@ -56,11 +56,13 @@
         CardSource,
         Tribe,
         ConcreteCard,
-        FieldRule
+        FieldRule,
+        AllControl
     }
     
     public enum ConcreteCard
     {
-        BeaverCub
+        BeaverCub,
+        MagpieFledgling
     }
 }

@@ -85,4 +85,10 @@ public enum BytecodeBasis : byte
 
     [Command(CommandType.Specification)] [Specification(SpecificationType.ConcreteCard)]
     BeaverCub = 29,
+
+    [Command(CommandType.Specification)] [Specification(SpecificationType.ConcreteCard)]
+    MagpieFledgling = 30,
+
+    [Command(CommandType.Specification)] [Specification(SpecificationType.AllControl)]
+    All = 31,
 }

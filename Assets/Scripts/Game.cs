@@ -36,21 +36,24 @@ public class Game : MonoBehaviour
 
     private List<Tile> _temporaryTiles;
 
-    public void ShowPossibleTiles(IEnumerable<Vector2Int> selectedPoints)
+    public IEnumerator ShowPossibleTiles(IEnumerable<Vector2Int> selectedPoints)
     {
         _temporaryTiles = new List<Tile>();
-        foreach (var point in selectedPoints.ToList())
+        foreach (var point in selectedPoints.Shuffled().ToList())
         {
             var tile = _field.ContainsKey(point)
                 ? _field[point]
                 : Instantiate(PrefabManager.TilePrefab, transform)
                     .With(t => t.Position = point)
                     .With(t => t.Width = ServiceLocator.Locator.ConfigurationManager.TileWidth)
-                    .With(t => t.Player = _engine.Player);
+                    .With(t => t.Player = _engine.Player)
+                    .With(t => t.Build(ServiceLocator.Locator.AnimationManager.TileShowDuration));
             tile.Possible = true;
             if (!_field.ContainsKey(point))
                 _temporaryTiles.Add(tile);
         }
+
+        yield return new WaitForSeconds(ServiceLocator.Locator.AnimationManager.TileShowDuration);
     }
 
     public void Alert(string msg)
@@ -66,7 +69,7 @@ public class Game : MonoBehaviour
     {
         Alert($"{player.Name} победил!");
         foreach (var tile in goal.Positions())
-            _field[tile].Highlight();
+            _field[tile].Highlight(ServiceLocator.Locator.AnimationManager.WinShowDuration);
     }
 
     public IEnumerator ShowField(Dictionary<Vector2Int, TileInfo> field)
@@ -128,13 +131,17 @@ public class Game : MonoBehaviour
         yield return new WaitForSeconds(drawDuration);
     }
 
-    public void HidePossibleTiles(IEnumerable<Vector2Int> possibleTiles)
+    public IEnumerator HidePossibleTiles(IEnumerable<Vector2Int> possibleTiles)
     {
         foreach (var tile in possibleTiles.Where(p => _field.ContainsKey(p)))
             _field[tile].Possible = false;
 
         foreach (var tile in _temporaryTiles)
-            Destroy(tile.gameObject);
+            tile.Break(ServiceLocator.Locator.AnimationManager.TileHideDuration);
+
+
+        //Destroy(tile.gameObject);
+        yield return new WaitForSeconds(ServiceLocator.Locator.AnimationManager.TileHideDuration);
         _temporaryTiles = new List<Tile>();
     }
 
@@ -144,7 +151,7 @@ public class Game : MonoBehaviour
             .With(t => t.Position = position)
             .With(t => t.Player = _engine.Player)
             .With(t => t.Width = ServiceLocator.Locator.ConfigurationManager.TileWidth)
-            .With(t => t.Build());
+            .With(t => t.Build(ServiceLocator.Locator.AnimationManager.TileBuildDuration));
         yield break;
     }
 
@@ -161,7 +168,7 @@ public class Game : MonoBehaviour
     public IEnumerator Break(Vector2Int position)
     {
         //Destroy(_field[position].gameObject);
-        _field[position].Break();
+        _field[position].Break(ServiceLocator.Locator.AnimationManager.TileBreakDuration);
         _field.Remove(position);
         yield break;
     }

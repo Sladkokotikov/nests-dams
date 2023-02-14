@@ -13,22 +13,19 @@ namespace StateMachine.Arguments
         public DeclarationType Operation { get; }
         public ArgumentType Type { get; }
         public List<ConcreteCard> ConcreteCards { get; }
+        public bool All { get; private set; }
 
-        public FieldArgument(byte operation, Tribe selectedTribe = Tribe.None, params FieldSpecificationType[] argsToFeed)
+        public FieldArgument(byte operation, Tribe selectedTribe = Tribe.None,
+            params FieldSpecificationType[] argsToFeed)
         {
             Operation = operation.To<DeclarationType>();
             Type = ArgumentType.Field;
             ConcreteCards = new List<ConcreteCard>();
             _specifications = new List<FieldSpecificationType>();
-
             _selectedTribe = selectedTribe;
-
             
             foreach (var arg in argsToFeed)
                 _specifications.Add(arg);
-            
-            Debug.Log(string.Join(" ", _specifications));
-            Debug.Log(_specifications.Count);
         }
 
         public void Feed(byte b)
@@ -46,27 +43,24 @@ namespace StateMachine.Arguments
                 case SpecificationType.ConcreteCard:
                     ConcreteCards.Add(b.To<ConcreteCard>());
                     break;
-                default:
-                    throw new Exception($"FieldArgument expects Tribe or FieldSpecification but gets {argType}");
+                case SpecificationType.AllControl:
+                    All = true;
+                    break;
+                case SpecificationType.CardSource:
+                    throw new Exception("Field argument was fed with CardSource");
             }
         }
 
         public IEnumerable<Vector2Int> GetPossibleTiles(Vector2Int playedPosition,
             Dictionary<Vector2Int, TileInfo> field)
         {
-            Debug.Log(string.Join(" ", _specifications));
-            Debug.Log(_specifications.Count);
-            IEnumerable<Vector2Int> possibleTiles = field.Keys;
-            foreach (var spec in _specifications)
-            {
-                possibleTiles = spec.GetSatisfying(possibleTiles, playedPosition, field);
-            }
+            var possibleTiles = _specifications
+                .Aggregate<FieldSpecificationType, IEnumerable<Vector2Int>>
+                (field.Keys,
+                    (current, spec) => spec.GetSatisfying(current, playedPosition, field));
 
-            /*var possibleTiles = _specifications.Aggregate<FieldSpecification, IEnumerable<Vector2Int>>(field.Keys,
-                (current, spec) => current.Where(t => spec.Satisfied(t, playedPosition, field)));
-            */
             possibleTiles = possibleTiles.Where(t =>
-                !field.ContainsKey(t) || _selectedTribe.Satisfied(field[t].OccupantTribe)); //field[t].OccupantTribe == 
+                !field.ContainsKey(t) || _selectedTribe.Satisfied(field[t].OccupantTribe));
             return possibleTiles;
         }
     }

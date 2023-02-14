@@ -380,8 +380,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -350, y: -40}
-  m_SizeDelta: {x: 700, y: 80}
+  m_AnchoredPosition: {x: -250, y: -80}
+  m_SizeDelta: {x: 500, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &284059715
 MonoBehaviour:
@@ -430,12 +430,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 112.8
   m_fontSizeBase: 72
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 200
   m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -604,6 +604,7 @@ MonoBehaviour:
   <CardManager>k__BackingField: {fileID: 864731080}
   <SpriteManager>k__BackingField: {fileID: 1245401435}
   <ConfigurationManager>k__BackingField: {fileID: 1488171331}
+  <AnimationManager>k__BackingField: {fileID: 1712556026}
 --- !u!4 &392744436
 Transform:
   m_ObjectHideFlags: 0
@@ -618,6 +619,7 @@ Transform:
   - {fileID: 864731081}
   - {fileID: 1245401434}
   - {fileID: 1488171330}
+  - {fileID: 1712556025}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -809,6 +811,28 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f1b6e489aec24ac49b41e02aaad9ee7d, type: 2}
   - {fileID: 11400000, guid: 505e811ee147aca47b65b06c81e9a820, type: 2}
   - {fileID: 11400000, guid: 12ace8e435b79794e9304a61a6aedb50, type: 2}
+  - {fileID: 11400000, guid: 79483044638f7af49b035de3ac679677, type: 2}
+  - {fileID: 11400000, guid: db0c6d1654c613645acb079ee7637422, type: 2}
+  - {fileID: 11400000, guid: 1b502de3a03cd2b4b8a4236be589384c, type: 2}
+  - {fileID: 11400000, guid: 44ff939d150c5404da7f1ed88f89df7c, type: 2}
+  - {fileID: 11400000, guid: d0db66774f5efe843adfbcf74a3fd009, type: 2}
+  - {fileID: 11400000, guid: b1c234d62f0f43845a3e72aa2efd2807, type: 2}
+  - {fileID: 11400000, guid: b7a47e761f1ca4448954cf8e79f8d903, type: 2}
+  - {fileID: 11400000, guid: 42c047001694d37499b6c63e56551e00, type: 2}
+  - {fileID: 11400000, guid: 9dbc04600a1580741b28706687b71ae7, type: 2}
+  - {fileID: 11400000, guid: 574331ea2c7019347b85f3de7e980476, type: 2}
+  - {fileID: 11400000, guid: f6b340a9f08e0d541900ac6e509ec48d, type: 2}
+  - {fileID: 11400000, guid: 4d285412d42dfa644af0ea9ae3751dba, type: 2}
+  - {fileID: 11400000, guid: 7fdb7ea5ba37a0145ac0731e7be8c75c, type: 2}
+  - {fileID: 11400000, guid: 11cb0f89137e0514189f13398d77ad79, type: 2}
+  - {fileID: 11400000, guid: 9c5c46380f005914a92c43951ab66a7e, type: 2}
+  - {fileID: 11400000, guid: 8b05ba957c9ff4d4aa5c02a733666582, type: 2}
+  - {fileID: 11400000, guid: c2b248dcb971c5c45a6c2767d17640e4, type: 2}
+  beaverCub: {fileID: 11400000, guid: d19c04b1a8abd6444addb19c0f1746ee, type: 2}
+  magpieFledgling: {fileID: 11400000, guid: d0db66774f5efe843adfbcf74a3fd009, type: 2}
+  <Obstacle>k__BackingField: {fileID: 11400000, guid: f22b39f843c9f6b44827889af8306679, type: 2}
+  startDeck: 0600000007000000080000000b0000000b0000000b000000
+  startBotDeck: 
 --- !u!4 &864731081
 Transform:
   m_ObjectHideFlags: 0
@@ -1361,6 +1385,54 @@ MonoBehaviour:
   botThinkTimeMin: 0.5
   botThinkTimeMax: 2
   <StartCardsCount>k__BackingField: 10
+--- !u!1 &1712556024
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1712556025}
+  - component: {fileID: 1712556026}
+  m_Layer: 0
+  m_Name: AnimationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1712556025
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1712556024}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 392744436}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1712556026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1712556024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d254db34368343f59ebf2a4c237a68ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <TileBuildDuration>k__BackingField: 2
+  <TileBreakDuration>k__BackingField: 2
+  <TileShowDuration>k__BackingField: 0.5
+  <TileHideDuration>k__BackingField: 0.5
+  <WinShowDuration>k__BackingField: 1
 --- !u!1 &1831771533
 GameObject:
   m_ObjectHideFlags: 0

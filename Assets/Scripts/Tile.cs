@@ -61,20 +61,20 @@ public class Tile : MonoBehaviour, IPointerClickHandler
         {
             _possible = value;
             if (value)
-                Highlight();
+                Highlight(ServiceLocator.Locator.AnimationManager.TileShowDuration);
             else
-                StopHighlight();
+                StopHighlight(ServiceLocator.Locator.AnimationManager.TileHideDuration);
         }
     }
 
-    public void Highlight()
+    public void Highlight(float duration)
     {
-        innerImage.color = Color.yellow;
+        innerImage.DOColor(Color.yellow, duration);
     }
 
-    private void StopHighlight()
+    private void StopHighlight(float duration)
     {
-        innerImage.color = Color.white;
+        innerImage.DOColor(Color.white, duration);
     }
 
 
@@ -91,7 +91,7 @@ public class Tile : MonoBehaviour, IPointerClickHandler
         innerImage.sprite = ServiceLocator.Locator.SpriteManager.Floor.Choose();
     }
 
-    public void Break()
+    public void Break(float duration)
     {
         var newMaterial = Instantiate(dissolve);
         outerImage.enabled = false;
@@ -103,11 +103,11 @@ public class Tile : MonoBehaviour, IPointerClickHandler
         DOTween.To(() => newMaterial.GetFloat(ServiceLocator.Locator.ConfigurationManager.Fade),
             f => newMaterial.SetFloat(ServiceLocator.Locator.ConfigurationManager.Fade, f),
             -0.1f,
-            3
+            duration
         ).OnComplete(() => { Destroy(gameObject); });
     }
 
-    public void Build()
+    public void Build(float duration)
     {
         var newMaterial = Instantiate(dissolve);
         outerImage.enabled = false;
@@ -118,7 +118,7 @@ public class Tile : MonoBehaviour, IPointerClickHandler
         DOTween.To(() => newMaterial.GetFloat(ServiceLocator.Locator.ConfigurationManager.Fade),
             f => newMaterial.SetFloat(ServiceLocator.Locator.ConfigurationManager.Fade, f),
             0.8f,
-            3
+            duration
         ).OnComplete(() =>
         {
             innerImage.material = null;

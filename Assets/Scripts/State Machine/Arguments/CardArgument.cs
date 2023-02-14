@@ -11,6 +11,7 @@ namespace StateMachine.Arguments
         public DeclarationType Operation { get; }
         public ArgumentType Type { get; }
         public List<ConcreteCard> ConcreteCards { get; }
+        public bool All { get; private set; }
 
         public CardArgument(byte operation, params byte[] argsToFeed)
         {
@@ -40,8 +41,11 @@ namespace StateMachine.Arguments
                 case SpecificationType.ConcreteCard:
                     ConcreteCards.Add(b.To<ConcreteCard>());
                     break;
-                default:
-                    throw new Exception($"CardArgument expects Tribe or CardSource, but gets {specType}");
+                case SpecificationType.FieldRule:
+                    throw new Exception("FieldRule was fed to Card Argument");
+                case SpecificationType.AllControl:
+                    All = true;
+                    break;
             }
         }
     }
