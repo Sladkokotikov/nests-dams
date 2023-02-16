@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea192ec2c8314d658d8f296617b07cd0, type: 3}
   m_Name: Saboteur
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 5
+  <Id>k__BackingField: 13
   <Tribe>k__BackingField: 20
   <CardName>k__BackingField: "\u0421\u043E\u0440\u043E\u043A\u0430-\u0414\u0438\u0432\u0435\u0440\u0441\u0430\u043D\u0442"
   <AbilityMask>k__BackingField: "\u0420\u0430\u0437\u0431\u0435\u0439\u0442\u0435
     \u0434\u0432\u0435 \u043A\u043B\u0435\u0442\u043A\u0438"
   <Image>k__BackingField: {fileID: 21300000, guid: 43c6cb6b6c95aee48a5482d1efdae0b2, type: 3}
   <Icon>k__BackingField: {fileID: 21300000, guid: 4608126f00af537419fc3604afa84021, type: 3}
-  <Commands>k__BackingField: 0a000a00
+  commands: 

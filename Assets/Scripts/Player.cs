@@ -17,6 +17,9 @@ public abstract class Player
     public Goal CompletedGoal(Dictionary<Vector2Int, TileInfo> field)
         => Goals.FirstOrDefault(goal => goal.IsSatisfied(field));
 
+    public abstract bool CanPlayCard { get; protected set; }
+    public abstract void PlayCard(CardMovement card, Vector2Int position);
+
     protected Player(GameEngine engine, string name, List<Goal> goals, List<CardData> deck)
     {
         Hand = new List<CardData>();

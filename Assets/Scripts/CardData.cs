@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New CardData", menuName = "ScriptableObjects/CardData", order = 1)]
+[CreateAssetMenu(menuName = "ScriptableObjects/CardData")]
 public class CardData : ScriptableObject
 {
     [field: SerializeField] public int Id { get; private set; }
@@ -14,6 +14,6 @@ public class CardData : ScriptableObject
     [field: SerializeField]public Sprite Image{ get; private set; }
     [field: SerializeField]public Sprite Icon{ get; private set; }
     
-    public IEnumerable<byte> Bytecode => Commands.Cast<byte>();
-    [field: SerializeField]public List<BytecodeBasis> Commands{ get; private set; }
+    public IEnumerable<byte> Bytecode => commands.Cast<byte>();
+    [SerializeField] private List<BytecodeBasis> commands;
 }

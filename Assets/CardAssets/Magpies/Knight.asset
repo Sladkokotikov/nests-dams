@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea192ec2c8314d658d8f296617b07cd0, type: 3}
   m_Name: Knight
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 5
+  <Id>k__BackingField: 9
   <Tribe>k__BackingField: 20
   <CardName>k__BackingField: "\u0421\u043E\u0440\u043E\u043A\u0430-\u0420\u044B\u0446\u0430\u0440\u044C"
   <AbilityMask>k__BackingField: "\u0423\u0431\u0435\u0439\u0442\u0435 \u0431\u043E\u0431\u0440\u0430
     \u043D\u0430 \u0441\u043E\u0441\u0435\u0434\u043D\u0435\u0439 \u043A\u043B\u0435\u0442\u043A\u0435"
   <Image>k__BackingField: {fileID: 21300000, guid: 4ece4c1e8639d9243ba58fa8966f4590, type: 3}
   <Icon>k__BackingField: {fileID: 21300000, guid: a109f809186c72441a9621e956568a68, type: 3}
-  <Commands>k__BackingField: 04130d00
+  commands: 

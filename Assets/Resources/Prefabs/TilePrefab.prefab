@@ -179,8 +179,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dissolve: {fileID: 2100000, guid: a74aaa5b818255243b85a3ab15d25952, type: 2}
-  <InnerRect>k__BackingField: {fileID: 5960057546550961681}
-  <OuterRect>k__BackingField: {fileID: 8512679852540845272}
-  <InnerImage>k__BackingField: {fileID: 6548083770268167386}
-  <OuterImage>k__BackingField: {fileID: 8512679852540845271}
+  innerRect: {fileID: 8512679852540845272}
+  outerRect: {fileID: 5960057546550961681}
+  innerImage: {fileID: 8512679852540845271}
+  outerImage: {fileID: 6548083770268167386}
   <Tile>k__BackingField: {fileID: 8512679852540845269}
+  tileConfig: {fileID: 11400000, guid: 39901568eb143c143bdd4c2620fc5759, type: 2}

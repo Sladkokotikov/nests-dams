@@ -6,7 +6,6 @@ public class Tile : MonoBehaviour, IPointerClickHandler
     public RealPlayer Player;
 
     [field: SerializeField] public TileAnimation TileAnimation { get; private set; }
-
     private CardMovement _occupant;
 
     public CardMovement Occupant
@@ -42,13 +41,14 @@ public class Tile : MonoBehaviour, IPointerClickHandler
         {
             _possible = value;
             if (value)
-                TileAnimation.Highlight(ServiceLocator.Locator.AnimationManager.TileShowDuration);
+                TileAnimation.Highlight();
             else
-                TileAnimation.StopHighlight(ServiceLocator.Locator.AnimationManager.TileHideDuration);
+                TileAnimation.StopHighlight();
         }
     }
-    
+
     private Vector2Int _position;
+
     public Vector2Int Position
     {
         get => _position;

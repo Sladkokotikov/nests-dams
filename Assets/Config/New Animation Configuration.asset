@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a04f46dad2814374a78898403e5ef8d6, type: 3}
+  m_Name: New Animation Configuration
+  m_EditorClassIdentifier: 
+  <TileShowDuration>k__BackingField: 0.5
+  <TileHideDuration>k__BackingField: 0.5
+  <TileBuildDuration>k__BackingField: 0.5
+  <TileBreakDuration>k__BackingField: 0.5

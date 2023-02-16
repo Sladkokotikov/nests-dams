@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea192ec2c8314d658d8f296617b07cd0, type: 3}
   m_Name: Merchant
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 5
+  <Id>k__BackingField: 10
   <Tribe>k__BackingField: 20
   <CardName>k__BackingField: "\u0421\u043E\u0440\u043E\u043A\u0430-\u0422\u043E\u0440\u0433\u043E\u0432\u043A\u0430"
   <AbilityMask>k__BackingField: "\u041F\u0440\u0438\u0442\u044F\u043D\u0438\u0442\u0435
     \u0441\u043B\u0443\u0447\u0430\u0439\u043D\u044B\u0439 \u043E\u0442\u0440\u044F\u0434"
   <Image>k__BackingField: {fileID: 21300000, guid: fd7ca344cd7c8b7419a211f60185c36d, type: 3}
   <Icon>k__BackingField: {fileID: 21300000, guid: df16d828aaea6284c8bbcee9cf9fc48d, type: 3}
-  <Commands>k__BackingField: 0601
+  commands: 

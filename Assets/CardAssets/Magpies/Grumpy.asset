@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea192ec2c8314d658d8f296617b07cd0, type: 3}
   m_Name: Grumpy
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 5
+  <Id>k__BackingField: 6
   <Tribe>k__BackingField: 20
   <CardName>k__BackingField: "\u0421\u043E\u0440\u043E\u043A\u0430-\u0417\u043B\u044E\u043A\u0430"
   <AbilityMask>k__BackingField: "\u0423\u0431\u0435\u0439\u0442\u0435 \u0441\u043B\u0443\u0447\u0430\u0439\u043D\u044B\u0439
@@ -20,4 +20,4 @@ MonoBehaviour:
     \u0441\u043B\u0443\u0447\u0430\u0439\u043D\u0443\u044E \u043A\u043B\u0435\u0442\u043A\u0443."
   <Image>k__BackingField: {fileID: 21300000, guid: 52fcc4d2f222a7d4caa02d400308a5e9, type: 3}
   <Icon>k__BackingField: {fileID: 21300000, guid: d9da235783d7dc042bad1b186bb3a6ce, type: 3}
-  <Commands>k__BackingField: 0a010401
+  commands: 

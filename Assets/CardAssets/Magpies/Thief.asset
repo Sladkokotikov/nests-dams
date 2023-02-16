@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea192ec2c8314d658d8f296617b07cd0, type: 3}
   m_Name: Thief
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 5
+  <Id>k__BackingField: 16
   <Tribe>k__BackingField: 20
   <CardName>k__BackingField: "\u0421\u043E\u0440\u043E\u043A\u0430-\u0412\u043E\u0440"
   <AbilityMask>k__BackingField: "\u0412\u043E\u0437\u044C\u043C\u0438\u0442\u0435
@@ -20,4 +20,4 @@ MonoBehaviour:
     \u043F\u0440\u043E\u0442\u0438\u0432\u043D\u0438\u043A\u0430"
   <Image>k__BackingField: {fileID: 21300000, guid: ba3b9386e9f7cf2458e649254c6ab930, type: 3}
   <Icon>k__BackingField: {fileID: 21300000, guid: d56ea8a02f389bc49a872df4f7e0475c, type: 3}
-  <Commands>k__BackingField: 071a02071a02
+  commands: 

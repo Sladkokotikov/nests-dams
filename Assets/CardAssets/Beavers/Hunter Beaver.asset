@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea192ec2c8314d658d8f296617b07cd0, type: 3}
   m_Name: Hunter Beaver
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 3
+  <Id>k__BackingField: 103
   <Tribe>k__BackingField: 19
   <CardName>k__BackingField: "\u0411\u043E\u0431\u0451\u0440-\u041E\u0445\u043E\u0442\u043D\u0438\u043A"
   <AbilityMask>k__BackingField: "\u041F\u0440\u0438\u0442\u044F\u043D\u0438\u0442\u0435
     \u043E\u0442\u0440\u044F\u0434."
   <Image>k__BackingField: {fileID: 21300000, guid: 3cc87c53fe3c5134fa2d07507750b3fb, type: 3}
   <Icon>k__BackingField: {fileID: 21300000, guid: 949a46792b5620c4fbf17ae2e6195be2, type: 3}
-  <Commands>k__BackingField: 0600
+  commands: 

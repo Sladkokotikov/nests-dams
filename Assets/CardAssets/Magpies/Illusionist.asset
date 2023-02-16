@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea192ec2c8314d658d8f296617b07cd0, type: 3}
   m_Name: Illusionist
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 5
+  <Id>k__BackingField: 8
   <Tribe>k__BackingField: 20
   <CardName>k__BackingField: "\u0421\u043E\u0440\u043E\u043A\u0430-\u0418\u043B\u043B\u044E\u0437\u0438\u043E\u043D\u0438\u0441\u0442"
   <AbilityMask>k__BackingField: "\u0421\u043E\u0437\u0434\u0430\u0439\u0442\u0435
@@ -20,4 +20,4 @@ MonoBehaviour:
     \u043A\u043B\u0435\u0442\u043A\u0435."
   <Image>k__BackingField: {fileID: 21300000, guid: 5078ccfd932dbe940b5439bd084d8f45, type: 3}
   <Icon>k__BackingField: {fileID: 21300000, guid: 6d5105f0065ce9141938ece618148a70, type: 3}
-  <Commands>k__BackingField: 031e01
+  commands: 

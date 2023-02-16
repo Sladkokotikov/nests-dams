@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d438acb23124287a80c042f611a0a45, type: 3}
+  m_Name: New Cards Configuration
+  m_EditorClassIdentifier: 
+  <StartCardsCount>k__BackingField: 5
+  <CardsInDeck>k__BackingField: 20
+  <AllCards>k__BackingField: {fileID: 11400000, guid: 456978a276c9fcd479f957e44dd969fc, type: 2}

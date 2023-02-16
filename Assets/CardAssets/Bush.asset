@@ -19,4 +19,4 @@ MonoBehaviour:
     \u043C\u0435\u0441\u0442\u043E. \u0427\u0442\u043E \u0437\u0430 \u0444\u0438\u0433\u043D\u044F?"
   <Image>k__BackingField: {fileID: 21300000, guid: 9f7ef3cbd8bf30949a337065a3c7a412, type: 3}
   <Icon>k__BackingField: {fileID: 21300000, guid: 6ba2eab01feb95c41b3f600b7258adb4, type: 3}
-  <Commands>k__BackingField: 
+  commands: 

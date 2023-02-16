@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class RealPlayer : Player
 {
-    public bool CanPlayCard { get; private set; }
-
     private bool IsCardPlayed { get; set; }
     public CardMovement PlayedCard { get; set; }
     public Vector2Int CardPosition { get; set; }
@@ -26,6 +24,8 @@ public class RealPlayer : Player
             yield return Engine.PlaceCard(PlayedCard, CardPosition);
     }
 
+    public override bool CanPlayCard { get; protected set; }
+
     public override IEnumerator DrawCard()
     {
         if (Deck.Count == 0)
@@ -33,7 +33,7 @@ public class RealPlayer : Player
         var card = Deck[0];
         Hand.Add(card);
         Deck.RemoveAt(0);
-        yield return Game.ShowCard(card);
+        yield return Game.Hand.ShowCard(this, card);
     }
 
     private IEnumerator GetCard()
@@ -62,7 +62,7 @@ public class RealPlayer : Player
         IsCardPlayed = false;
     }
 
-    public void PlayCard(CardMovement card, Vector2Int position)
+    public override void PlayCard(CardMovement card, Vector2Int position)
     {
         PlayedCard = card;
         CardPosition = position;

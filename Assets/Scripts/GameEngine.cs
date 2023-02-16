@@ -48,12 +48,12 @@ public class GameEngine
                 new Goal(Tribe.Magpie, Vector2Int.up, Vector2Int.up + Vector2Int.up),
                 new Goal(Tribe.Magpie, Vector2Int.one, Vector2Int.one + Vector2Int.one),
             },
-            ServiceLocator.Locator.CardManager.StartDeck);
-        Game.SavePlayerGoals(Player.GetGoals);
+            Game.CardConfig.StartDeck);
+        Game.GoalManager.SavePlayerGoals(Player.GetGoals);
         Bot = new Bot(this,
             "Bot",
             new List<Goal> {new Goal(Tribe.Magpie, Vector2Int.up)},
-            ServiceLocator.Locator.CardManager.StartBotDeck);
+            Game.CardConfig.BotDeck);
     }
 
     #endregion
@@ -69,9 +69,9 @@ public class GameEngine
 
     private IEnumerator InitHand()
     {
-        for (var i = 0; i < ServiceLocator.Locator.ConfigurationManager.StartCardsCount; i++)
+        for (var i = 0; i < Game.CardConfig.StartCardsCount; i++)
             yield return Player.DrawCard();
-        for (var i = 0; i < ServiceLocator.Locator.ConfigurationManager.StartCardsCount; i++)
+        for (var i = 0; i < Game.CardConfig.StartCardsCount; i++)
             yield return Bot.DrawCard();
     }
 
@@ -83,7 +83,7 @@ public class GameEngine
         for (var j = -_fieldSize.y / 2; j < -_fieldSize.y / 2 + _fieldSize.y; j++)
             _field[new Vector2Int(i, j)] = TileInfo.FreeTile;
 
-        yield return Game.ShowField(_field);
+        yield return Game.Field.Show(_field);
     }
 
 
@@ -103,10 +103,8 @@ public class GameEngine
         {
             if (PlayerTurn && CheckWin(Bot) || CheckWin(Player) || BotTurn && CheckWin(Bot))
                 yield break;
-
-
             _currentPlayer = PlayerTurn ? Player : (Player) Bot;
-            Game.Alert($"Ходит {_currentPlayer.Name}!");
+            Game.Messenger.Alert($"Ходит {_currentPlayer.Name}!");
             yield return _currentPlayer.MakeTurn();
             _turnCounter++;
         }
@@ -126,9 +124,9 @@ public class GameEngine
     public IEnumerator PlaceCard(CardMovement card, Vector2Int position)
     {
         _playedPosition = position;
-        Game.PlaceCard(card, position);
+        Game.Field.PlaceCard(card, position);
         var cardData = card.Card.Data;
-        _field[position] = TileInfo.Create(cardData.Tribe,cardData.Id);
+        _field[position] = TileInfo.Create(cardData.Tribe, cardData.Id);
         _currentState = new ApplicationState();
         yield return ApplyFullAbility(cardData);
     }
@@ -139,7 +137,7 @@ public class GameEngine
         if (freeTiles.Count == 0)
             yield break;
         var freePos = freeTiles.Choose();
-        yield return Game.CreateAndPlaceCard(data, freePos, false);
+        yield return Game.Field.CreateAndPlaceCard(Bot, data, freePos, false);
         _field[freePos] = TileInfo.Create(data.Tribe, data.Id);
         _currentState = new ApplicationState();
         yield return ApplyFullAbility(data, true);
@@ -148,14 +146,14 @@ public class GameEngine
     private IEnumerator ApplyFullAbility(CardData data, bool isBot = false)
     {
         if (isBot)
-            yield return new WaitForSeconds(ServiceLocator.Locator.ConfigurationManager.BotThinkTimeRange);
+            yield return new WaitForSeconds(Game.BotConfig.ThinkRange);
         foreach (var b in data.Bytecode)
         {
             var correctByte = b;
             if (isBot && b == (byte) BytecodeBasis.Confirm)
             {
                 correctByte = (byte) BytecodeBasis.ConfirmRandom;
-                yield return new WaitForSeconds(ServiceLocator.Locator.ConfigurationManager.BotThinkTimeRange);
+                yield return new WaitForSeconds(Game.BotConfig.ThinkRange);
             }
 
             _currentState = _currentState.NextState(correctByte);
@@ -215,9 +213,9 @@ public class GameEngine
         switch (applicationType)
         {
             case ApplicationType.Confirm:
-                yield return Game.ShowPossibleTiles(possibleTiles);
+                yield return Game.Field.ShowPossibleTiles(possibleTiles);
                 yield return Player.Confirm();
-                yield return Game.HidePossibleTiles(possibleTiles);
+                yield return Game.Field.HidePossibleTiles(possibleTiles);
                 tilesToDo.Add(Player.TilePosition);
                 break;
             case ApplicationType.ConfirmRandom:
@@ -238,13 +236,13 @@ public class GameEngine
         switch (argument.Operation.To<DeclarationType, FieldOperationType>())
         {
             case FieldOperationType.Spawn:
-                var data = ServiceLocator.Locator.CardManager.GetCard(argument.ConcreteCards[0]);
+                var data = Game.CardConfig.AllCards.GetConcreteCard(argument.ConcreteCards[0]);
                 _field[position] = TileInfo.Create(data.Tribe, data.Id);
-                yield return Game.CreateAndPlaceCard(data, position, true);
+                yield return Game.Field.CreateAndPlaceCard(_currentPlayer, data, position, true);
                 break;
             case FieldOperationType.Kill:
                 _field[position] = TileInfo.FreeTile;
-                yield return Game.Kill(position);
+                yield return Game.Field.Kill(position);
                 break;
             case FieldOperationType.Push:
                 var pushDelta = position - _playedPosition;
@@ -254,7 +252,7 @@ public class GameEngine
                 while (_field.ContainsKey(pushFinish + pushDelta) && _field[pushFinish + pushDelta].Free)
                     pushFinish += pushDelta;
                 _field[pushFinish] = pushStartTileInfo;
-                yield return Game.Push(position, pushFinish);
+                yield return Game.Field.Push(position, pushFinish);
                 break;
             case FieldOperationType.Pull:
                 var pullDelta = position - _playedPosition;
@@ -264,24 +262,24 @@ public class GameEngine
                 var pullStartTileInfo = _field[position];
                 _field[position] = TileInfo.FreeTile;
                 _field[pullFinish] = pullStartTileInfo;
-                yield return Game.Pull(position, pullFinish);
+                yield return Game.Field.Pull(position, pullFinish);
                 break;
             case FieldOperationType.Lock:
-                var obstacleData = ServiceLocator.Locator.CardManager.Obstacle;
+                var obstacleData = Game.CardConfig.AllCards.Obstacle;
                 _field[position] = TileInfo.Create(obstacleData.Tribe, obstacleData.Id);
-                yield return Game.CreateAndPlaceCard(obstacleData, position, true);
+                yield return Game.Field.CreateAndPlaceCard(_currentPlayer, obstacleData, position, true);
                 break;
             case FieldOperationType.Unlock:
                 _field[position] = TileInfo.FreeTile;
-                yield return Game.Kill(position);
+                yield return Game.Field.Kill(position);
                 break;
             case FieldOperationType.Break:
                 _field.Remove(position);
-                yield return Game.Break(position);
+                yield return Game.Field.Break(position);
                 break;
             case FieldOperationType.Build:
                 _field[position] = TileInfo.FreeTile;
-                yield return Game.Build(position);
+                yield return Game.Field.Build(position);
                 break;
         }
     }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea192ec2c8314d658d8f296617b07cd0, type: 3}
   m_Name: Boxer Beaver
   m_EditorClassIdentifier: 
-  <Id>k__BackingField: 2
+  <Id>k__BackingField: 102
   <Tribe>k__BackingField: 19
   <CardName>k__BackingField: "\u0411\u043E\u0431\u0451\u0440-\u0411\u043E\u043A\u0441\u0451\u0440"
   <AbilityMask>k__BackingField: "\u041E\u0442\u0442\u043E\u043B\u043A\u043D\u0438\u0442\u0435
@@ -20,4 +20,4 @@ MonoBehaviour:
     \u043E\u0442\u0440\u044F\u0434"
   <Image>k__BackingField: {fileID: 21300000, guid: 4ac824adbab9a22469b9ea7de67f9c72, type: 3}
   <Icon>k__BackingField: {fileID: 21300000, guid: f741c7baf86b9264e8f9b3c9b41be71c, type: 3}
-  <Commands>k__BackingField: 0501
+  commands: 
